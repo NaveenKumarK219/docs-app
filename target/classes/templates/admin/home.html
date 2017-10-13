@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>MAGMA-POC Admin Page</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <link rel="shortcut icon" href="../img/favicon.ico">
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+</head>
+
+<body>
+	<div class="container">
+	
+		<div class="panel-group" style="margin-top:40px">
+		<h1 style="text-align: center;">MAGMA-POC DOC</h1>
+			<div class="panel panel-primary">
+				<div class="panel-heading" >
+					<span th:utext="'Welcome! '+${user.name}+' '+${user.lastName} +' ( '+${user.email}+' )'" ></span>
+					<a class="btn" th:href="@{/logout}" style="color: white;">LogOut </a>
+				</div>
+				<div class="panel-body">
+					<a class="btn" th:href="@{/docs}" style="color: white;">HOME </a>
+
+					<a class="btn" th:href="@{/admin/newDoc}" style="color: white;">Add New Doc </a>
+					<div th:if="${(param.successMessage != null) and (param.title != null)}">
+						<p class="admin-message-text text-center" >
+						<a th:href="@{/docs/{title}(title=${param.title[0]})}" th:text="${param.title[0]}"></a>
+						<span th:text="${param.successMessage[0]}"></span>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</div> 
+</body>
+</html>

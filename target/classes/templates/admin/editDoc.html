@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Edit Doc</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  	
+  	<link rel="shortcut icon" href="/img/favicon.ico">
+
+  	<link rel="stylesheet" href="/css/theme.css" type="text/css" />
+</head>
+<body>
+	<div class="container">
+		<h1>Edit Document</h1>
+		
+		<form th:action="@{/admin/saveDoc}" method="post">
+			<input class="form-control" type="text" id="title" name="title" th:value="${title}" readonly="readonly"/> </br>
+			<textarea rows="20" cols="50" name="markdownText" id="markdownText" th:text="${markdownText}" class="form-control"></textarea> </br>
+			<button class="btn" type="submit" value="SAVE">SAVE</button>
+			<a class="btn" th:href="@{/admin/home}"  style="color: white;">Cancel</a>
+		</form>
+	</div>
+
+</body>
+</html>

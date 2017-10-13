@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Add New Doc</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  	
+  	<link rel="shortcut icon" href="../img/favicon.ico">
+
+  	<link rel="stylesheet" href="../css/theme.css" type="text/css" />
+</head>
+<body>
+	<div class="container">
+		<h1>Add New Document</h1>
+		<form th:action="@{/admin/addNewDoc}" method="post">
+			<input type="text" name="title" id="title" class="form-control"/> </br>
+			<textarea rows="20" cols="50" name="markdownText" id="markdownText" class="form-control"></textarea> </br>
+			<button type="submit" value="SAVE" class="btn">SAVE</button>
+			<a class="btn" th:href="@{/admin/home}"  style="color: white;">Cancel</a>
+		</form>
+	</div>
+
+</body>
+</html>
