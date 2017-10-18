@@ -90,8 +90,9 @@ public class DocumentationController {
 
 	    e.printStackTrace();
 	}
-	mav.addObject("successMessage", title + " Doc Added successfully!!!");
-	mav.setViewName("/admin/home");
+	mav.addObject("title", title);
+	mav.addObject("successMessage", " Doc Added successfully!!!");
+	mav.setView(new RedirectView("/admin/home"));
 	return mav;
     }
 

@@ -18,4 +18,8 @@ public interface DocumentRepository extends JpaRepository<TableOfContents, Seria
     @Query(value = "select file_name from table_of_contents where title=?", nativeQuery = true)
     public String getDocFileName(String title);
 
+    public List<TableOfContents> findAllByOrderById();
+
+    public String findFileNameByTitle(String title);
+
 }

@@ -38,7 +38,7 @@
 		    <input type="text" name="q" placeholder="Search docs" />
 		  </form>
 		</div>
-		<a  href="/login" class="icon" th:if="${#strings.isEmpty(userName)}==true">LOGIN</a>
+		<a  href="/login" class="icon" th:if="${#strings.isEmpty(userName)}==true"><i class="fa fa-sign-in"></i> LOGIN</a>
 		<a  href="/login" class="icon" th:if="${#strings.isEmpty(userName)}==false" th:text="'${user} (ADMIN)'"></a>
       </div>
 
@@ -65,7 +65,9 @@
       <div class="wy-nav-content">
         <div class="rst-content">
 	       	<div role="navigation" aria-label="breadcrumbs navigation">
-	 			<a class="btn" style="float: right;" th:href="@{/admin/editDoc/{title}(title=${title})}"  >EDIT</a>
+	 			<a style="float: right;" th:href="@{/admin/editDoc/{title}(title=${title})}"  >
+	 			<i class="fa fa-edit fa-2x"></i> EDIT
+	 			</a>
 			</div>
         
           <div role="main">
@@ -74,17 +76,12 @@
             </div>
           </div>
           <footer>
-          
-  <hr/>
-
-  <div role="contentinfo">
-    <!-- Copyright etc -->
-    
-      <p> &copy; 2017 MAGMA-POC, Maintained by Magma-Poc-Dev Team.</p>
-    
-  </div>
-
-</footer>
+          <hr/>
+			  <div role="contentinfo" >
+			    <!-- Copyright etc -->
+			      <p> &copy; 2017 MAGMA-POC, Maintained by Magma-Poc-Dev Team.</p>
+			  </div>
+		  </footer>
 	  
         </div>
       </div>

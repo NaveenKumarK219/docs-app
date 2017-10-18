@@ -25,7 +25,8 @@ public class DocumentService {
 	/*if (title == null || title.equals("")) {
 	    return documentRepository.getTableOfContents("Home");
 	}*/
-	return documentRepository.getTableOfContents();
+	// return documentRepository.getTableOfContents();
+	return documentRepository.findAllByOrderById();
     }
     
     public String getDocFileName(String title) {
@@ -39,7 +40,7 @@ public class DocumentService {
 
     public String markdownToHtmlConverter(String fileName) throws FileNotFoundException {
 
-	PegDownProcessor pegdown = new PegDownProcessor(Extensions.ALL);
+	PegDownProcessor pegdown = new PegDownProcessor(Extensions.ALL, Long.MAX_VALUE);
 	DataInputStream dis = new DataInputStream(new FileInputStream("./src/main/resources/markdown/" + fileName + ".md"));
 	byte[] markdownByte = null;
 	try {

@@ -4,7 +4,7 @@
 <head>
 	<title> Register User</title>
 	<link rel="stylesheet" type="text/css" th:href="@{/css/login.css}" />
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   	
@@ -16,7 +16,7 @@
 				<form autocomplete="off" action="#" th:action="@{/registration}"
 					th:object="${user}" method="post" role="form" class="login-form">
 					<h1 class="form-signin-heading">Magma Poc Doc </h1>
-					<h2 class="form-signin-heading">Registration Form</h2>
+					<h2 class="form-signin-heading">Registration</h2>
 					<div >
 						<label th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
 								class="validation-message"></label>
