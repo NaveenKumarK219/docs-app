@@ -9,13 +9,16 @@
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+    <!-- GOOGLE FONTS-->
+   <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+  
   <link rel="shortcut icon" href="../img/favicon.ico">
 
   <link rel="stylesheet" href="../css/theme.css" type="text/css" />
 </head>
 
 <body>
-	<div class="container">
+	<!-- <div class="container">
 	
 		<div class="panel-group" style="margin-top:40px">
 		<h1 style="text-align: center;">MAGMA-POC DOC</h1>
@@ -28,6 +31,11 @@
 					<a class="btn" th:href="@{/docs}" style="color: white;">HOME </a>
 
 					<a class="btn" th:href="@{/admin/newDoc}" style="color: white;">Add New Doc </a>
+					
+					<a class="btn" th:href="@{#}" style="color:white;">Change Password</a>
+					<a class="btn" th:href="@{#}" style="color:white;">Reset Password</a>
+					<a class="btn" th:href="@{#}" style="color:white;">Edit Account</a>
+					
 					<div th:if="${(param.successMessage != null) and (param.title != null)}">
 						<p class="admin-message-text text-center" >
 						<a th:href="@{/docs/{title}(title=${param.title[0]})}" th:text="${param.title[0]}"></a>
@@ -38,6 +46,144 @@
 			</div>
 		</div>
 		
-	</div> 
+	</div>  -->
+	
+
+    <div id="wrapper">
+         <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="adjust-nav">
+                <div class="navbar-header">
+                    <a class="navbar-brand" th:href="@{/admin/home}">MAGMA-POC DOC</a>
+                </div>
+                <div style="float: right;">
+	                <span class="navbar-brand" th:utext="'Welcome! '+${user.name}+' '+${user.lastName} +' ( '+${user.email}+' )'" ></span>
+	                <button class="btn-danger btn-lg" type="button" onclick="javascript:location.href='/logout';">LogOut</button>
+                </div>
+            </div>
+        </div>
+        <!-- /. NAV TOP  -->
+
+        <div id="page-wrapper" >
+            <div id="page-inner">
+                <div class="row">
+                    <div class="col-lg-12">
+                    </div>
+                </div>              
+                 <!-- /. ROW  -->
+                <div class="row" style="padding-top: 75px;">
+                    <div class="col-lg-12 ">
+                        <div class="alert alert-info" th:if="${(param.successMessage != null) and (param.title != null)}">
+							<a th:href="@{/docs/{title}(title=${param.title[0]})}" th:text="${param.title[0]}"></a>
+							<span th:text="${param.successMessage[0]}"></span>
+                        </div>
+                       
+                    </div>
+                </div>
+                <!-- <div class="row">
+                    <div class="col-lg-12 " >
+					<br/>
+                        <div class="alert alert-danger">
+                             
+                        </div>
+                       
+                    </div>
+ 				</div> -->
+                
+                  <!-- /. ROW  --> 
+                <div class="row text-center pad-top">
+                
+                  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
+                      <div class="div-square">
+                      	<a th:href="@{/}" >
+ 							<i class="fa fa-home fa-5x"></i>
+                      		<h4>Home</h4>
+                      	</a>
+                      </div>
+                     
+                     
+                  </div>
+                  
+                  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
+                      <div class="div-square">
+                      	<a th:href="@{/admin/newDoc}" >
+ 							<i class="fa fa-book fa-5x"></i>
+                      		<h4>Add New Doc</h4>
+                      	</a>
+                      </div>
+                     
+                     
+                  </div>
+                  	
+                  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
+                      <div class="div-square">
+                      	<a th:href="@{/admin/editDoc/{title}(title='New Feature Requirements')}" >
+ 							<i class="fa fa-lightbulb-o fa-5x"></i>
+                      		<h4>New Issues</h4>
+                      	</a>
+                      </div>
+                     
+                     
+                  </div>
+                  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
+                      <div class="div-square">
+                      	<a href="#" >
+ 							<i class="fa fa-users fa-5x"></i>
+                      		<h4>Users</h4>
+                      	</a>
+                      </div>
+                     
+                     
+                  </div>
+                  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
+                      <div class="div-square">
+                        <a href="#" >
+ 							<i class="fa fa-key fa-5x"></i>
+                      		<h4>Change Password </h4>
+                      </a>
+                      </div>
+                     
+                     
+                  </div>
+                  
+              </div>
+                 <!-- /. ROW  --> 
+                <div class="row text-center pad-top">
+                 
+                  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
+                      <div class="div-square">
+                      	<a href="#" >
+ 							<i class="fa fa-gear fa-5x"></i>
+                      		<h4>Settings</h4>
+                      </a>
+                      </div>
+                  </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
+                      <div class="div-square">
+                      	<a th:href="@{/registration}" >
+ 							<i class="fa fa-user fa-5x"></i>
+                      		<h4>Register User</h4>
+                      </a>
+                      </div>
+               	</div> 
+              </div>   
+                 <!-- /. ROW  -->  
+
+    </div>
+             <!-- /. PAGE INNER  -->
+            </div>
+         <!-- /. PAGE WRAPPER  -->
+        </div>
+    <div class="footer" style="position: absolute;bottom: 0;">
+      
+    
+            <div class="row">
+                <div class="col-lg-12 alert" >
+                    &copy; 2017 - MAGMA-POC.
+                </div>
+            </div>
+        </div>
+
+	
+
 </body>
 </html>
