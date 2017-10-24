@@ -1,3 +1,1 @@
-# POC Documentation
-
-### Welcome To POC Documentation.
+# Simple Documentation Application for all projects.
