@@ -8,7 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -31,11 +31,11 @@ public class DocumentationController {
     private DocumentService documentService;
 
     @RequestMapping(value = { "/docs", "/" }, method = RequestMethod.GET)
-    public ModelAndView home() throws IOException {
+    public ModelAndView home(HttpSession session) throws IOException {
 	ModelAndView mav = new ModelAndView();
 	List<TableOfContents> tocList = documentService.getTableOfContents();
 
-	String htmlContent = documentService.markdownToHtmlConverter("home");
+	String htmlContent = documentService.markdownToHtmlConverter("home", session);
 	mav.addObject("markdownHtml", htmlContent);
 	mav.addObject("toc", tocList);
 	mav.addObject("title", "Home");
@@ -44,7 +44,7 @@ public class DocumentationController {
     }
 
     @RequestMapping(value = "/docs/{title}", method = RequestMethod.GET)
-    public ModelAndView viewDocument(@PathVariable String title) throws IOException {
+    public ModelAndView viewDocument(@PathVariable String title, HttpSession session) throws IOException {
 	ModelAndView mav = new ModelAndView();
 	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	String userName = null;
@@ -54,7 +54,7 @@ public class DocumentationController {
 	List<TableOfContents> tocList = documentService.getTableOfContents();
 	String fileName = documentService.getDocFileName(title);
 
-	String htmlContent = documentService.markdownToHtmlConverter(fileName);
+	String htmlContent = documentService.markdownToHtmlConverter(fileName, session);
 	
 	mav.addObject("markdownHtml", htmlContent);
 	mav.addObject("toc", tocList);
@@ -73,7 +73,7 @@ public class DocumentationController {
     }
 
     @RequestMapping(value = "/admin/addNewDoc", method = RequestMethod.POST)
-    public ModelAndView addNewDocument(@RequestParam("title") String title,
+    public ModelAndView addNewDocument(HttpSession session, @RequestParam("title") String title,
 	    @RequestParam("markdownText") String markdownText) {
 
 	ModelAndView mav = new ModelAndView();
@@ -81,7 +81,7 @@ public class DocumentationController {
 	String fileName = title.trim().replaceAll("\\s{1,}", "-");
 	System.out.println("Title: " + title + " File Name: " + fileName);
 
-	try(BufferedWriter bWriter = new BufferedWriter(new FileWriter("./src/main/resources/markdown/"+fileName+".md"))){
+	try(BufferedWriter bWriter = new BufferedWriter(new FileWriter(session.getServletContext().getRealPath("WEB-INF/classes/markdown/" + fileName + ".md")))){
 	    bWriter.write(markdownText);
 	    toc.setTitle(title);
 	    toc.setFileName(fileName);
@@ -97,11 +97,11 @@ public class DocumentationController {
     }
 
     @RequestMapping(value = "/admin/editDoc/{title}", method = RequestMethod.GET)
-    public ModelAndView editDocument(HttpServletRequest request, @PathVariable("title") String title)
+    public ModelAndView editDocument(HttpSession session, @PathVariable("title") String title)
 	    throws FileNotFoundException {
 	ModelAndView mav = new ModelAndView();
 	String fileName = documentService.getDocFileName(title);
-	DataInputStream dis = new DataInputStream(new FileInputStream("./src/main/resources/markdown/" + fileName + ".md"));
+	DataInputStream dis = new DataInputStream(new FileInputStream(session.getServletContext().getRealPath("WEB-INF/classes/markdown/" + fileName + ".md")));
 	byte[] markdownByte = null;
 	try {
 	    markdownByte = new byte[dis.available()];
@@ -119,12 +119,13 @@ public class DocumentationController {
     }
 
     @RequestMapping(value = "/admin/saveDoc", method = RequestMethod.POST)
-    public ModelAndView saveDocument(@RequestParam("title") String title,@RequestParam("markdownText") String markdownText) {
+    public ModelAndView saveDocument(HttpSession session, @RequestParam("title") String title,
+	    @RequestParam("markdownText") String markdownText) {
 	ModelAndView mav = new ModelAndView();
 	String fileName = documentService.getDocFileName(title);
 	System.out.println("Title: " + title + " File Name: " + fileName);
 
-	try(BufferedWriter bWriter = new BufferedWriter(new FileWriter("./src/main/resources/markdown/"+fileName+".md"))){
+	try(BufferedWriter bWriter = new BufferedWriter(new FileWriter(session.getServletContext().getRealPath("WEB-INF/classes/markdown/" + fileName + ".md")))){
 	    bWriter.write(markdownText);
 	} catch (IOException e) {
 

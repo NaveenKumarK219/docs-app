@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.pegdown.Extensions;
 import org.pegdown.PegDownProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,10 +40,12 @@ public class DocumentService {
 	documentRepository.save(toc);
     }
 
-    public String markdownToHtmlConverter(String fileName) throws FileNotFoundException {
+    public String markdownToHtmlConverter(String fileName,HttpSession session) throws FileNotFoundException {
 
 	PegDownProcessor pegdown = new PegDownProcessor(Extensions.ALL, Long.MAX_VALUE);
-	DataInputStream dis = new DataInputStream(new FileInputStream("./src/main/resources/markdown/" + fileName + ".md"));
+	//DataInputStream dis = new DataInputStream(new FileInputStream("./src/main/resources/markdown/" + fileName + ".md"));
+	DataInputStream dis = new DataInputStream(new FileInputStream(session.getServletContext().getRealPath("WEB-INF/classes/markdown/" + fileName + ".md")));
+	System.out.println();
 	byte[] markdownByte = null;
 	try {
 	    markdownByte = new byte[dis.available()];
