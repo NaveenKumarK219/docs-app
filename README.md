@@ -1,3 +1,3 @@
-# MAGMA-POC Documentation
+# POC Documentation
 
-### Welcome To MAGMA-POC Documentation.
+### Welcome To POC Documentation.
