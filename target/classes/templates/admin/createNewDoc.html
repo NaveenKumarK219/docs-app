@@ -5,12 +5,12 @@
 	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  	<script src="/js/bootbox.min.js"></script>
-  	<script src="/js/marked.js"></script>
-  	<link rel="shortcut icon" href="../img/favicon.ico">
+  	<script th:src="@{/js/bootbox.min.js}"></script>
+  	<script th:src="@{/js/marked.js}"></script>
+  	<link rel="shortcut icon" th:href="@{/img/favicon.ico}">
 
   	<!-- <link rel="stylesheet" href="../css/theme.css" type="text/css" /> -->
-  	<link rel="stylesheet" href="/css/dilinger.css" type="text/css" />
+  	<link rel="stylesheet" th:href="@{/css/dilinger.css}" type="text/css" />
 </head>
 <body>
 	<div class="page">
@@ -23,7 +23,7 @@
 			
 			<input type="text" name="title" id="title" class="title-document form-control" placeholder="Title"/></br>
 			<button class="btn-primary btn-lg" type="button" value="SAVE" onclick="validateAndSaveDoc()" >Save</button>
-			<button class="btn-danger btn-lg" type="button" onclick="javascript:location.href='/admin/home';">Cancel</button>
+			<button class="btn-danger btn-lg" type="button" onclick="javascript:location.href='/magma-poc-doc/admin/home';">Cancel</button>
 			<div class="editor-header editor-header--first">
 				<h3 class="title">MARKDOWN</h3>
 			</div>

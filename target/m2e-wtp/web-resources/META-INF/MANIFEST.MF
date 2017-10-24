@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Implementation-Vendor: Pivotal Software, Inc.
+Implementation-Title: magma-poc-doc
+Implementation-Version: 1.0
+Implementation-Vendor-Id: com.mdoc
+Build-Jdk: 1.7.0_80
+Built-By: navinkumark
+Created-By: Maven Integration for Eclipse
+Implementation-URL: http://projects.spring.io/spring-boot/magma-poc-do
+ c/
+Main-Class: com.mdoc.MagmaDocAppLaunch
+
