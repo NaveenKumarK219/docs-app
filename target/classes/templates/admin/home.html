@@ -18,37 +18,6 @@
 </head>
 
 <body>
-	<!-- <div class="container">
-	
-		<div class="panel-group" style="margin-top:40px">
-		<h1 style="text-align: center;">MAGMA-POC DOC</h1>
-			<div class="panel panel-primary">
-				<div class="panel-heading" >
-					<span th:utext="'Welcome! '+${user.name}+' '+${user.lastName} +' ( '+${user.email}+' )'" ></span>
-					<a class="btn" th:href="@{/logout}" style="color: white;">LogOut </a>
-				</div>
-				<div class="panel-body">
-					<a class="btn" th:href="@{/docs}" style="color: white;">HOME </a>
-
-					<a class="btn" th:href="@{/admin/newDoc}" style="color: white;">Add New Doc </a>
-					
-					<a class="btn" th:href="@{#}" style="color:white;">Change Password</a>
-					<a class="btn" th:href="@{#}" style="color:white;">Reset Password</a>
-					<a class="btn" th:href="@{#}" style="color:white;">Edit Account</a>
-					
-					<div th:if="${(param.successMessage != null) and (param.title != null)}">
-						<p class="admin-message-text text-center" >
-						<a th:href="@{/docs/{title}(title=${param.title[0]})}" th:text="${param.title[0]}"></a>
-						<span th:text="${param.successMessage[0]}"></span>
-						</p>
-					</div>
-				</div>
-			</div>
-		</div>
-		
-	</div>  -->
-	
-
     <div id="wrapper">
          <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="adjust-nav">
