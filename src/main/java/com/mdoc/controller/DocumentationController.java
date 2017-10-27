@@ -92,7 +92,7 @@ public class DocumentationController {
 	}
 	mav.addObject("title", title);
 	mav.addObject("successMessage", " Doc Added successfully!!!");
-	mav.setView(new RedirectView("/admin/home"));
+	mav.setView(new RedirectView("../admin/home"));
 	return mav;
     }
 
@@ -134,7 +134,7 @@ public class DocumentationController {
 	mav.addObject("title", title);
 	mav.addObject("successMessage", " Doc Edited successfully!!!");
 	// mav.setViewName("/admin/home");
-	mav.setView(new RedirectView("/admin/home"));
+	mav.setView(new RedirectView("../admin/home"));
 	return mav;
     }
 
