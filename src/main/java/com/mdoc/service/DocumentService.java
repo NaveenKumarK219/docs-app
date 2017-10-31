@@ -44,7 +44,7 @@ public class DocumentService {
 	    throws FileNotFoundException {
 
 	PegDownProcessor pegdown = new PegDownProcessor(Extensions.ALL, Long.MAX_VALUE);
-	DataInputStream dis = new DataInputStream(new FileInputStream(filePath + fileName + ".md"));
+	DataInputStream dis = new DataInputStream(new FileInputStream(filePath + "/" + fileName + ".md"));
 	System.out.println();
 	byte[] markdownByte = null;
 	try {

@@ -34,7 +34,7 @@ import com.mdoc.service.DocumentService;
 @Controller
 public class DocumentationController {
 
-    private final String filePath = "/tmp/";
+    private final String filePath = "/home/" + System.getProperty("user.name") + "/docs";
 
     @Autowired
     private DocumentService documentService;
@@ -123,7 +123,7 @@ public class DocumentationController {
 	String fileName = title.trim().replaceAll("\\s{1,}", "-");
 	System.out.println("Title: " + title + " File Name: " + fileName);
 
-	try (BufferedWriter bWriter = new BufferedWriter(new FileWriter(filePath + fileName + ".md"))) {
+	try (BufferedWriter bWriter = new BufferedWriter(new FileWriter(filePath + "/" + fileName + ".md"))) {
 	    bWriter.write(markdownText);
 	    toc.setTitle(title);
 	    toc.setFileName(fileName);
@@ -152,7 +152,7 @@ public class DocumentationController {
 	    throws FileNotFoundException {
 	ModelAndView mav = new ModelAndView();
 	String fileName = documentService.getDocFileName(title);
-	DataInputStream dis = new DataInputStream(new FileInputStream(filePath + fileName + ".md"));
+	DataInputStream dis = new DataInputStream(new FileInputStream(filePath + "/" + fileName + ".md"));
 	byte[] markdownByte = null;
 	try {
 	    markdownByte = new byte[dis.available()];
@@ -184,7 +184,7 @@ public class DocumentationController {
 	String fileName = documentService.getDocFileName(title);
 	System.out.println("Title: " + title + " File Name: " + fileName);
 
-	try (BufferedWriter bWriter = new BufferedWriter(new FileWriter(filePath + fileName + ".md"))) {
+	try (BufferedWriter bWriter = new BufferedWriter(new FileWriter(filePath + "/" + fileName + ".md"))) {
 	    bWriter.write(markdownText);
 	} catch (IOException e) {
 
