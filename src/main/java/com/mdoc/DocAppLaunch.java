@@ -20,15 +20,15 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
  * @since Sep-2017
  */
 @SpringBootApplication
-public class MagmaDocAppLaunch extends SpringBootServletInitializer {
+public class DocAppLaunch extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
 
-	return builder.sources(MagmaDocAppLaunch.class);
+	return builder.sources(DocAppLaunch.class);
     }
 
     public static void main(String[] args) {
-	SpringApplication.run(MagmaDocAppLaunch.class, args);
+	SpringApplication.run(DocAppLaunch.class, args);
     }
 }
