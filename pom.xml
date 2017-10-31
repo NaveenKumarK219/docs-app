@@ -5,11 +5,11 @@
   <modelVersion>4.0.0</modelVersion>
   
   <groupId>com.mdoc</groupId>
-  <artifactId>magma-poc-doc</artifactId>
+  <artifactId>docs-app</artifactId>
   <version>1.0</version>
   <packaging>war</packaging>
-  <name>magma-poc-doc</name>
-  <description>Documentation application for magma-poc</description>
+  <name>docs-app</name>
+  <description>Documentation application</description>
   
   <parent>
 	<groupId>org.springframework.boot</groupId>
@@ -22,7 +22,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.7</java.version>        
-    	<start-class>com.mdoc.MagmaDocAppLaunch</start-class>
+    	<start-class>com.mdoc.DocAppLaunch</start-class>
 	</properties>
 
 	<dependencies>
