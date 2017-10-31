@@ -40,11 +40,12 @@ public class DocumentService {
 	documentRepository.save(toc);
     }
 
-    public String markdownToHtmlConverter(String fileName,HttpSession session) throws FileNotFoundException {
+    public String markdownToHtmlConverter(String fileName, String filePath, HttpSession session)
+	    throws FileNotFoundException {
 
 	PegDownProcessor pegdown = new PegDownProcessor(Extensions.ALL, Long.MAX_VALUE);
 	//DataInputStream dis = new DataInputStream(new FileInputStream("./src/main/resources/markdown/" + fileName + ".md"));
-	DataInputStream dis = new DataInputStream(new FileInputStream(session.getServletContext().getRealPath("WEB-INF/classes/markdown/" + fileName + ".md")));
+	DataInputStream dis = new DataInputStream(new FileInputStream(filePath + fileName + ".md"));
 	System.out.println();
 	byte[] markdownByte = null;
 	try {

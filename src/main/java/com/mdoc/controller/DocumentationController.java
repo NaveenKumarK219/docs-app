@@ -24,18 +24,35 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.mdoc.model.TableOfContents;
 import com.mdoc.service.DocumentService;
 
+/**
+ * This class is a controller which contains the main functionality of the
+ * applciation. Here following operations are performed: View, Add, Edit.
+ * 
+ * @author navinkumark
+ *
+ */
 @Controller
 public class DocumentationController {
+
+    private final String filePath = "/tmp/";
 
     @Autowired
     private DocumentService documentService;
 
+    /**
+     * This method is called after the application is started. It will give the
+     * welcome page for the application.
+     * 
+     * @param session
+     * @return ModelAndView
+     * @throws IOException
+     */
     @RequestMapping(value = { "/docs", "/" }, method = RequestMethod.GET)
     public ModelAndView home(HttpSession session) throws IOException {
 	ModelAndView mav = new ModelAndView();
 	List<TableOfContents> tocList = documentService.getTableOfContents();
 
-	String htmlContent = documentService.markdownToHtmlConverter("home", session);
+	String htmlContent = documentService.markdownToHtmlConverter("home", filePath, session);
 	mav.addObject("markdownHtml", htmlContent);
 	mav.addObject("toc", tocList);
 	mav.addObject("title", "Home");
@@ -43,6 +60,16 @@ public class DocumentationController {
 	return mav;
     }
 
+    /**
+     * With this method we view the docs. Using the title provided in the url,
+     * this method gets the markdown file and converts it into html and
+     * redirects to view the page.
+     * 
+     * @param title
+     * @param session
+     * @return ModelAndView
+     * @throws IOException
+     */
     @RequestMapping(value = "/docs/{title}", method = RequestMethod.GET)
     public ModelAndView viewDocument(@PathVariable String title, HttpSession session) throws IOException {
 	ModelAndView mav = new ModelAndView();
@@ -54,7 +81,7 @@ public class DocumentationController {
 	List<TableOfContents> tocList = documentService.getTableOfContents();
 	String fileName = documentService.getDocFileName(title);
 
-	String htmlContent = documentService.markdownToHtmlConverter(fileName, session);
+	String htmlContent = documentService.markdownToHtmlConverter(fileName, filePath, session);
 	
 	mav.addObject("markdownHtml", htmlContent);
 	mav.addObject("toc", tocList);
@@ -64,6 +91,12 @@ public class DocumentationController {
 	return mav;
     }
 
+    /**
+     * This will open up the new doc page to create a new document.
+     * 
+     * @return ModelAndView
+     * @throws IOException
+     */
     @RequestMapping(value = "/admin/newDoc")
     public ModelAndView newDocument() throws IOException {
 	ModelAndView mav = new ModelAndView();
@@ -72,6 +105,15 @@ public class DocumentationController {
 	return mav;
     }
 
+    /**
+     * This method gets the document contents from the new doc page and writes
+     * the markdown content to a file.
+     * 
+     * @param session
+     * @param title
+     * @param markdownText
+     * @return ModelAndView
+     */
     @RequestMapping(value = "/admin/addNewDoc", method = RequestMethod.POST)
     public ModelAndView addNewDocument(HttpSession session, @RequestParam("title") String title,
 	    @RequestParam("markdownText") String markdownText) {
@@ -81,7 +123,7 @@ public class DocumentationController {
 	String fileName = title.trim().replaceAll("\\s{1,}", "-");
 	System.out.println("Title: " + title + " File Name: " + fileName);
 
-	try(BufferedWriter bWriter = new BufferedWriter(new FileWriter(session.getServletContext().getRealPath("WEB-INF/classes/markdown/" + fileName + ".md")))){
+	try (BufferedWriter bWriter = new BufferedWriter(new FileWriter(filePath + fileName + ".md"))) {
 	    bWriter.write(markdownText);
 	    toc.setTitle(title);
 	    toc.setFileName(fileName);
@@ -96,12 +138,21 @@ public class DocumentationController {
 	return mav;
     }
 
+    /**
+     * This will open up the edit page for the document with content loaded and
+     * ready for edit.
+     * 
+     * @param session
+     * @param title
+     * @return ModelAndView
+     * @throws FileNotFoundException
+     */
     @RequestMapping(value = "/admin/editDoc/{title}", method = RequestMethod.GET)
     public ModelAndView editDocument(HttpSession session, @PathVariable("title") String title)
 	    throws FileNotFoundException {
 	ModelAndView mav = new ModelAndView();
 	String fileName = documentService.getDocFileName(title);
-	DataInputStream dis = new DataInputStream(new FileInputStream(session.getServletContext().getRealPath("WEB-INF/classes/markdown/" + fileName + ".md")));
+	DataInputStream dis = new DataInputStream(new FileInputStream(filePath + fileName + ".md"));
 	byte[] markdownByte = null;
 	try {
 	    markdownByte = new byte[dis.available()];
@@ -118,6 +169,14 @@ public class DocumentationController {
 	return mav;
     }
 
+    /**
+     * Here the edited doc contents are saved and published.
+     * 
+     * @param session
+     * @param title
+     * @param markdownText
+     * @return
+     */
     @RequestMapping(value = "/admin/saveDoc", method = RequestMethod.POST)
     public ModelAndView saveDocument(HttpSession session, @RequestParam("title") String title,
 	    @RequestParam("markdownText") String markdownText) {
@@ -125,7 +184,7 @@ public class DocumentationController {
 	String fileName = documentService.getDocFileName(title);
 	System.out.println("Title: " + title + " File Name: " + fileName);
 
-	try(BufferedWriter bWriter = new BufferedWriter(new FileWriter(session.getServletContext().getRealPath("WEB-INF/classes/markdown/" + fileName + ".md")))){
+	try (BufferedWriter bWriter = new BufferedWriter(new FileWriter(filePath + fileName + ".md"))) {
 	    bWriter.write(markdownText);
 	} catch (IOException e) {
 

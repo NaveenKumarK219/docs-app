@@ -16,12 +16,26 @@ import org.springframework.web.servlet.ModelAndView;
 import com.mdoc.model.User;
 import com.mdoc.service.UserService;
 
+/**
+ * This controller will provide the basic operations fo users. Like
+ * signing-in,registering a new user.
+ * 
+ * @author navinkumark
+ *
+ */
 @Controller
 public class LoginController {
 
     @Autowired
     private UserService userService;
 
+    /**
+     * This method opens up the login page if user is not authenticated
+     * otherwise redirects the user to admin home page.
+     * 
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView login(HttpServletRequest request) {
 	ModelAndView mav = new ModelAndView();
@@ -37,6 +51,11 @@ public class LoginController {
 	return mav;
     }
 
+    /**
+     * Opens the registration page to register a new user.
+     * 
+     * @return ModelAndView
+     */
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public ModelAndView registration() {
 	ModelAndView mav = new ModelAndView();
@@ -46,6 +65,14 @@ public class LoginController {
 	return mav;
     }
 
+    /**
+     * Gets the form input from registration page and adds the user to the
+     * database.
+     * 
+     * @param user
+     * @param bindResult
+     * @return ModelAndView
+     */
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public ModelAndView createNewUser(@Valid User user, BindingResult bindResult) {
 	ModelAndView mav = new ModelAndView();
@@ -66,6 +93,12 @@ public class LoginController {
 	return mav;
     }
 
+    /**
+     * Shows the admin page after user authentication is done.
+     * 
+     * @param request
+     * @return ModelAndView
+     */
     @RequestMapping(value = "/admin/home", method = RequestMethod.GET)
     public ModelAndView home(HttpServletRequest request) {
 	ModelAndView mav = new ModelAndView();

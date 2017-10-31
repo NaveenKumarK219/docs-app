@@ -13,6 +13,17 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+/**
+ * The project security configuration is provided here for the application,
+ * using @Configuration defines this class as the configuration class for the
+ * application. @EnableWebSecurity will enable the web security for the
+ * application and we can provide parameters to secure our web app from
+ * different live scenarios. It exends WebSecurityConfigurerAdapter for the same
+ * purpose.
+ * 
+ * @author navinkumark
+ *
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -20,6 +31,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    /**
+     * The below instance variables are autowired and initialised from
+     * application.properties file.
+     * 
+     */
     @Autowired
     private DataSource dataSource;
 
@@ -29,6 +45,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Value("${spring.queries.roles-query}")
     private String rolesQuery;
 
+    /**
+     * This method will check for the users for authentication provided with
+     * username and password.
+     * 
+     * @param AuthenticationManagerBuilder
+     * 
+     */
     protected void configure(AuthenticationManagerBuilder auth) throws Exception{
 	auth.jdbcAuthentication()
 			.usersByUsernameQuery(usersQuery)
@@ -37,6 +60,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.passwordEncoder(bCryptPasswordEncoder);
     }
 
+    /**
+     * This method catches all urls in the application and checks if user is
+     * authentic and manages login,logout,error like pages and also guides users
+     * to role-specific urls.
+     */
     protected void configure(HttpSecurity http) throws Exception{
 	http.authorizeRequests()
 		.antMatchers("/").permitAll()
@@ -54,6 +82,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		.accessDeniedPage("/access-denied");
     }
 
+    /**
+     * To ignore security on particular things like resources,jar files etc,this
+     * method is used.
+     */
     public void configure(WebSecurity web) throws Exception {
 	web.ignoring().antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/img/**", "/docs/**");
     }
