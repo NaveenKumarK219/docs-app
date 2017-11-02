@@ -1,9 +1,9 @@
-# MAGMA-POC Documentation
+# Docs App - Document Application
 
-### Welcome To MAGMA-POC Documentation.
-
-* Here you can find the documentation of all POC modules.
-* Documents are editable for admin roles.
+### Welcome To Docs App - Document Application
+* This app is all about documentation, useful for any project to maintain their docs.
+* Any project can easily use this app to create their own documentation application.
+* We will release more features in each release.
 
 
 
