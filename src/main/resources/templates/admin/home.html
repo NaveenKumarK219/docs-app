@@ -3,7 +3,7 @@
 	xmlns:th="http://www.thymeleaf.org">
 
 <head>
-<title>MAGMA-POC Admin Page</title>
+<title>Docs App Admin Page</title>
 <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" />
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -22,7 +22,7 @@
          <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="adjust-nav">
                 <div class="navbar-header">
-                    <a class="navbar-brand" th:href="@{/admin/home}">MAGMA-POC DOC</a>
+                    <a class="navbar-brand" th:href="@{/admin/home}">Docs App</a>
                 </div>
                 <div style="float: right;">
 	                <span class="navbar-brand" th:utext="'Welcome! '+${user.name}+' '+${user.lastName} +' ( '+${user.email}+' )'" ></span>
@@ -147,7 +147,7 @@
     
             <div class="row">
                 <div class="col-lg-12 alert" >
-                    &copy; 2017 - MAGMA-POC.
+                    &copy; 2017 - Docs App.
                 </div>
             </div>
         </div>
