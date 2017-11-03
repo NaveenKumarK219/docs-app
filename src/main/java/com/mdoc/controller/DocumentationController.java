@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.mdoc.internal.Properties;
+import com.mdoc.model.AppProperties;
 import com.mdoc.model.TableOfContents;
 import com.mdoc.service.DocumentService;
 
@@ -52,6 +54,7 @@ public class DocumentationController {
      */
     @RequestMapping(value = { "/docs", "/" }, method = RequestMethod.GET)
     public ModelAndView home(HttpSession session) throws IOException {
+
 	ModelAndView mav = new ModelAndView();
 	List<TableOfContents> tocList = documentService.getTableOfContents();
 	String htmlContent = null;
@@ -69,6 +72,20 @@ public class DocumentationController {
 	mav.addObject("docName", docName);
 	mav.setViewName("viewDoc");
 	return mav;
+//=======
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("viewDoc");
+	
+		AppProperties app_props = Properties.getAppProperties(session);
+		mav.addObject("appname",app_props.getAppName());
+		
+		List<TableOfContents> tocList = documentService.getTableOfContents();
+		String htmlContent = documentService.markdownToHtmlConverter("home", filePath, session);
+		mav.addObject("markdownHtml", htmlContent);
+		mav.addObject("toc", tocList);
+		mav.addObject("title", "Home");	
+		return mav;
+
     }
 
     /**
