@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Docs App</title>
+  <title th:text="${title}"></title>
   
 
   <link rel="shortcut icon" th:href="@{/img/favicon.ico}">
@@ -32,7 +32,7 @@
 
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
       <div class="wy-side-nav-search">
-        <a th:href="@{/}" class="icon icon-home"> Docs App</a>
+        <a th:href="@{/}" class="icon icon-home" ><span th:text="${docName}"></span> </a>
         <div role="search">
 		  <form id ="rtd-search-form" class="wy-form" th:action="@{/search}" method="get">
 		    <input type="text" name="q" placeholder="Search docs" />

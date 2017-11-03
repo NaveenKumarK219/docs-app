@@ -11,6 +11,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -39,6 +40,8 @@ public class DocumentationController {
     @Autowired
     private DocumentService documentService;
 
+    @Value("${doc-name}")
+    String docName;
     /**
      * This method is called after the application is started. It will give the
      * welcome page for the application.
@@ -51,11 +54,19 @@ public class DocumentationController {
     public ModelAndView home(HttpSession session) throws IOException {
 	ModelAndView mav = new ModelAndView();
 	List<TableOfContents> tocList = documentService.getTableOfContents();
-
-	String htmlContent = documentService.markdownToHtmlConverter("home", filePath, session);
+	String htmlContent = null;
+	if (tocList.size() == 1) {
+	    mav.setViewName("welcomePage");
+	    htmlContent = documentService.markdownToHtmlConverter("welcomePage", session.getServletContext().getRealPath("WEB-INF/classes/markdown/welcomePage.md"), session);
+	    mav.addObject("markdownHtml", htmlContent);
+	    mav.addObject("title", "Get Started");
+	    return mav;
+	}
+	htmlContent = documentService.markdownToHtmlConverter("home", filePath, session);
 	mav.addObject("markdownHtml", htmlContent);
 	mav.addObject("toc", tocList);
 	mav.addObject("title", "Home");
+	mav.addObject("docName", docName);
 	mav.setViewName("viewDoc");
 	return mav;
     }
@@ -87,6 +98,7 @@ public class DocumentationController {
 	mav.addObject("toc", tocList);
 	mav.addObject("title", title);
 	mav.addObject("userName", userName);
+	mav.addObject("docName", docName);
 	mav.setViewName("viewDoc");
 	return mav;
     }
@@ -197,4 +209,18 @@ public class DocumentationController {
 	return mav;
     }
 
+    @RequestMapping(value = "/admin/app-settings", method = RequestMethod.GET)
+    public ModelAndView appSettings() {
+	ModelAndView mav = new ModelAndView();
+	mav.setViewName("/admin/app-settings");
+	return mav;
+    }
+    
+    @RequestMapping(value="/admin/app-settings",method=RequestMethod.POST)
+    public ModelAndView saveSettings(@RequestParam("appName") String appName) {
+	ModelAndView mav = new ModelAndView();
+
+	mav.setView(new RedirectView("../admin/home"));
+	return mav;
+    }
 }
