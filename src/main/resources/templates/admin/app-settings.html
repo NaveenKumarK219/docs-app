@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Settings</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+ 
+  	<link rel="shortcut icon" th:href="@{/img/favicon.ico}">
+
+  	<link rel="stylesheet" th:href="@{/css/theme.css}" type="text/css" />
+</head>
+<body>
+	<div class="page">
+		<div class="navbar navbar-inverse navbar-fixed-top navbar-header" >
+			<h3 style="padding: 0px 0px 0px 0px;"><a class="brand" th:href="@{/admin/home}">Docs App</a></h3>
+		</div>
+		
+		<h3 style="padding-top: 75px;">APP Settings</h3>
+		<form th:action="@{/admin/app-settings}" method="post">
+		<span>Doc App Name : </span>
+			<input type="text" id="appName" name="appName" placeholder="Docs App" /></br>
+		<span>Copy Right : </span>
+			<input type="text" name="copyRight" id="copyRight" placeholder="Copy Right info" />	
+		<button type="submit" class="btn-primary btn-lg">SAVE</button>
+		</form>
+	</div>
+
+
+</body>
+</html>
