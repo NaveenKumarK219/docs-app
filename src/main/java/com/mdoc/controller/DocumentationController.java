@@ -214,7 +214,7 @@ public class DocumentationController {
     @RequestMapping(value = "/admin/app-settings", method = RequestMethod.GET)
     public ModelAndView appSettings() {
 	ModelAndView mav = new ModelAndView();
-	mav.setViewName("/admin/app-settings");
+	mav.setViewName("/admin/appSettings");
 	return mav;
     }
     
