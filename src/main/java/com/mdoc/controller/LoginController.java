@@ -105,7 +105,6 @@ public class LoginController {
 	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	User user = userService.findUserByEmail(auth.getName());
 	mav.addObject("user", user);
-	mav.addObject("adminMessage", "ADMIN is available to admin roles!!");
 	mav.setViewName("/admin/home");
 	return mav;
 

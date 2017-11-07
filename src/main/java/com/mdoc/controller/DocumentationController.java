@@ -40,7 +40,7 @@ public class DocumentationController {
     @Autowired
     private DocumentService documentService;
 
-    @Value("${doc-name}")
+    @Value("Docs App")
     String docName;
     /**
      * This method is called after the application is started. It will give the

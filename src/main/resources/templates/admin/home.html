@@ -5,9 +5,9 @@
 <head>
 <title>Docs App Admin Page</title>
 <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" />
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+<script	th:src="@{/js/jquery-2.2.0.min.js}"></script>
+<script	th:src="@{/js/bootstrap.min.js}"></script>
 
     <!-- GOOGLE FONTS-->
    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
@@ -24,10 +24,12 @@
                 <div class="navbar-header">
                     <a class="navbar-brand" th:href="@{/admin/home}">Docs App</a>
                 </div>
-                <div style="float: right;">
-	                <span class="navbar-brand" th:utext="'Welcome! '+${user.name}+' '+${user.lastName} +' ( '+${user.email}+' )'" ></span>
-	                <button class="btn-danger btn-lg" type="button" onclick="javascript:location.href='/docs-app/logout';">LogOut</button>
-                </div>
+                <button style="float: right;" class="btn-danger btn-lg" type="button" onclick="javascript:location.href='/docs-app/logout';">LogOut</button>
+                <div class="navbar-brand" sec:authorize="isAuthenticated()" style="float: right;">		
+		            <span>Logged-in User: </span>
+		            <span sec:authentication="name"></span> |					
+		            Role: <span sec:authentication="principal.authorities"></span>				
+       		 	</div>
             </div>
         </div>
         <!-- /. NAV TOP  -->
@@ -41,8 +43,8 @@
                  <!-- /. ROW  -->
                 <div class="row" style="padding-top: 75px;">
                     <div class="col-lg-12 ">
-                        <div class="alert alert-info" th:if="${(param.successMessage != null) and (param.title != null)}">
-							<a th:href="@{/docs/{title}(title=${param.title[0]})}" th:text="${param.title[0]}"></a>
+                        <div class="alert alert-info" th:if="${(param.successMessage != null)}">
+							<a th:if="${(param.title != null)}" th:href="@{/docs/{title}(title=${param.title[0]})}" th:text="${param.title[0]}"></a>
 							<span th:text="${param.successMessage[0]}"></span>
                         </div>
                        
@@ -93,19 +95,10 @@
                      
                      
                   </div>
+                  
                   <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
                       <div class="div-square">
-                      	<a href="#" >
- 							<i class="fa fa-users fa-5x"></i>
-                      		<h4>Users</h4>
-                      	</a>
-                      </div>
-                     
-                     
-                  </div>
-                  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
-                      <div class="div-square">
-                        <a href="#" >
+                        <a th:href="@{/admin/change-password}" >
  							<i class="fa fa-key fa-5x"></i>
                       		<h4>Change Password </h4>
                       </a>
@@ -116,8 +109,24 @@
                   
               </div>
                  <!-- /. ROW  --> 
-                <div class="row text-center pad-top">
+                <div class="row text-center pad-top" sec:authorize="hasAuthority('ADMIN')">
                  
+                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6" >
+                      <div class="div-square">
+                      	<a href="#" >
+ 							<i class="fa fa-users fa-5x"></i>
+                      		<h4>Users</h4>
+                      	</a>
+                      </div>
+                  </div>
+                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
+                      <div class="div-square">
+                      	<a th:href="@{/registration}" >
+ 							<i class="fa fa-user fa-5x"></i>
+                      		<h4>Register User</h4>
+                      </a>
+                      </div>
+               	  </div> 
                   <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
                       <div class="div-square">
                       	<a th:href="@{/admin/app-settings}" >
@@ -126,14 +135,7 @@
                       </a>
                       </div>
                   </div>
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
-                      <div class="div-square">
-                      	<a th:href="@{/registration}" >
- 							<i class="fa fa-user fa-5x"></i>
-                      		<h4>Register User</h4>
-                      </a>
-                      </div>
-               	</div> 
+                
               </div>   
                  <!-- /. ROW  -->  
 
