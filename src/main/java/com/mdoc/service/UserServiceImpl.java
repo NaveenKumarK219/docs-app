@@ -1,13 +1,9 @@
 package com.mdoc.service;
 
-import java.util.Arrays;
-import java.util.HashSet;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.mdoc.model.Role;
 import com.mdoc.model.User;
 import com.mdoc.repository.RoleRepository;
 import com.mdoc.repository.UserRepository;
@@ -31,8 +27,10 @@ public class UserServiceImpl implements UserService {
     public void saveUser(User user) {
 	user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 	user.setActive(1);
-	Role userRole = roleRepository.findByRole("ADMIN");
-	user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
+	/*
+	 * Role userRole = roleRepository.findByRole("ADMIN"); user.setRoles(new
+	 * HashSet<Role>(Arrays.asList(userRole)));
+	 */
 	userRepository.save(user);
 
     }

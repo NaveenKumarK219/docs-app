@@ -1,16 +1,10 @@
 package com.mdoc.model;
 
-import java.util.Set;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Email;
@@ -41,9 +35,8 @@ public class User {
     private String lastName;
     @Column(name = "active")
     private int active;
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
+    @Column(name = "role")
+    private String role;
     
     public void setId(int id) {
 	this.id = id;
@@ -93,12 +86,12 @@ public class User {
 	return active;
     }
 
-    public void setRoles(Set<Role> roles) {
-	this.roles = roles;
+    public void setRole(String role) {
+	this.role = role;
     }
 
-    public Set<Role> getRoles() {
-	return roles;
+    public String getRole() {
+	return role;
     }
 
 }

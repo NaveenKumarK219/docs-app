@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.mdoc.model.User;
 import com.mdoc.service.UserService;
@@ -87,8 +88,9 @@ public class LoginController {
 	} else {
 	    userService.saveUser(user);
 	    mav.addObject("successMessage", "User registered successfully!!");
-	    mav.addObject("user", new User());
-	    mav.setViewName("registration");
+	    /*mav.addObject("user", new User());
+	    mav.setViewName("registration");*/
+	    mav.setView(new RedirectView("/docs-app/admin/home"));
 	}
 	return mav;
     }
