@@ -1,9 +1,12 @@
 package com.mdoc.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,6 +47,30 @@ public class AdminController {
 	userService.saveUser(user);
 	mav.addObject("successMessage", "Password changed Successfully!!!");
 	mav.setView(new RedirectView("../admin/home"));
+	return mav;
+    }
+    
+    @RequestMapping(value="/admin/manage-users",method=RequestMethod.GET)
+    public ModelAndView showManageUsers() {
+	ModelAndView mav = new ModelAndView();
+	List<User> userList = userService.getUsers();
+	/*for (User user : userList) {
+	    System.out.println(user.getName());
+	}*/
+	mav.addObject("users", userList);
+	mav.setViewName("/admin/manageUsers");
+	return mav;
+    }
+
+    @RequestMapping(value = "/admin/manage-users/{action}/{id}")
+    public ModelAndView manageUsers(@PathVariable("action") String action, @PathVariable("id") int id) {
+	ModelAndView mav = new ModelAndView();
+	if (action.equals("edit")) {
+	    mav.setView(new RedirectView("/docs-app/admin/manage-users"));
+	} else if (action.equals("delete")) {
+	    mav.addObject("successMessage", "User removed successfully!!");
+	    mav.setView(new RedirectView("/docs-app/admin/home"));
+	}
 	return mav;
     }
 }
