@@ -20,36 +20,28 @@
 					<h1 class="form-signin-heading"><a th:href="@{/admin/home}">Docs App</a></h1>
 					<h2 class="form-signin-heading">Registration</h2>
 					<div >
-						<label th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
-								class="validation-message"></label>
-						<input type="text" th:field="*{name}" placeholder="Name"
-								class="form-control" /> 
+						<input type="text" th:field="*{name}" placeholder="Name" class="form-control" />
+						<label th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="validation-message"></label> 
 					</div>
 
 					<div >
-						<label	th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"
-								class="validation-message"></label>
-							<input type="text" th:field="*{lastName}"
-								placeholder="Last Name" class="form-control" /> 
+						<input type="text" th:field="*{lastName}" placeholder="Last Name" class="form-control" />
+						<label	th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="validation-message"></label> 
 					</div>
 					<div >
-							<input type="text" th:field="*{email}" placeholder="Email"
-								class="form-control" /> <label
-								th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
-								class="validation-message"></label>
+							<input type="text" th:field="*{email}" placeholder="Email" class="form-control" /> 
+							<label th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="validation-message"></label>
 					</div>
 					<div >
-							<input type="password" th:field="*{password}"
-								placeholder="Password" class="form-control" /> <label
-								th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
-								class="validation-message"></label>
+							<input type="password" th:field="*{password}" placeholder="Password" class="form-control" /> 
+							<label th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="validation-message"></label>
 					</div>
 					<div >
-							<input name="role" id="role1" type="radio" th:field="*{role}" value="ADMIN" style="width: 20%;" checked="checked">ADMIN</input>
-							<input name="role" id="role2" type="radio" th:field="*{role}" value="EDITOR" style="width: 20%;">EDITOR</input> 
-							
+							<input type="radio" th:field="*{role}" value="ADMIN" style="width: 20%;" checked="checked">ADMIN
+							<input type="radio" th:field="*{role}" value="EDITOR" style="width: 20%;">EDITOR
 					</div>
-					
+					<label th:if="${#fields.hasErrors('role')}" th:errors="*{role}"
+								class="validation-message"></label>
 
 					<div >
 							<button type="submit" class="btn btn-primary btn-block">Register User</button>

@@ -36,6 +36,7 @@ public class User {
     @Column(name = "active")
     private int active;
     @Column(name = "role")
+    @NotEmpty(message = "Please Select a role")
     private String role;
     
     public void setId(int id) {
