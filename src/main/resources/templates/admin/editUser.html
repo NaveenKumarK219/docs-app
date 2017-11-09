@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head>
+<title>Edit User Details</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" />
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+<script	th:src="@{/js/jquery-2.2.0.min.js}"></script>
+<script	th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/bootbox.min.js}"></script>
+
+    <!-- GOOGLE FONTS-->
+   <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+  
+  <link rel="shortcut icon" th:href="@{/img/favicon.ico}">
+
+  <link rel="stylesheet" th:href="@{/css/theme.css}" type="text/css" />
+</head>
+
+<body>
+    <div id="wrapper">
+         <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="adjust-nav">
+                <div class="navbar-header">
+                    <a class="navbar-brand" th:href="@{/admin/home}">Docs App</a>
+                </div>
+                <button style="float: right;" class="btn-danger btn-lg" type="button" onclick="javascript:location.href='/docs-app/logout';">LogOut</button>
+                <div class="navbar-brand" sec:authorize="isAuthenticated()" style="float: right;">		
+		            <span>Logged-in User: </span>
+		            <span sec:authentication="name"></span> |					
+		            Role: <span sec:authentication="principal.authorities"></span>				
+       		 	</div>
+       		 	
+            </div>
+        </div>
+        <!-- /. NAV TOP  -->
+
+        <div id="page-wrapper" >
+            <div id="page-inner" >
+                <div style="padding-top: 75px;">
+                </div>
+                <h2>Edit User </h2>
+                <div class="form">
+				<form autocomplete="off" th:action="@{/admin/manage-users/save-user-edit}"
+					th:object="${user}" method="post" >
+					
+					<div >
+						First Name : <input type="text" th:field="*{name}" class="form-control" />
+						<label th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="validation-message"></label> 
+					</div>
+
+					<div >
+						Last Name : <input type="text" th:field="*{lastName}" class="form-control" />
+						<label	th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="validation-message"></label> 
+					</div>
+					<div >
+						E-mail : <input type="text" th:field="*{email}" class="form-control" /> 
+						<label th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="validation-message"></label>
+					</div>
+					<div >
+						Password : <input type="password" th:field="*{password}" class="form-control" /> 
+						<label th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="validation-message"></label>
+					</div>
+					<div >
+						<input type="radio" th:field="*{role}" value="ADMIN" style="width: 20%;">ADMIN
+						<input type="radio" th:field="*{role}" value="EDITOR" style="width: 20%;">EDITOR
+						<label th:if="${#fields.hasErrors('role')}" th:errors="*{role}" class="validation-message"></label>
+					</div>
+
+					<div >
+						<button type="submit" class="btn btn-primary btn-block">Save</button>
+					</div>
+				</form>
+			</div>
+            </div>
+             <!-- /. PAGE INNER  -->
+        </div>
+         <!-- /. PAGE WRAPPER  -->
+        </div>
+    <div class="footer" style="position: absolute;bottom: 0;">
+      
+    
+            <div class="row">
+                <div class="col-lg-12 alert" >
+                    &copy; 2017 - Docs App.
+                </div>
+            </div>
+    </div>
+
+</body>
+</html>

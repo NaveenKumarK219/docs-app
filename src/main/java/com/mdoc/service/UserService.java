@@ -53,4 +53,9 @@ public class UserService {
 	userRepository.unBlockUser(id);
     }
 
+    public User getUserById(int id) {
+	User user = userRepository.findById(id);
+	return user;
+    }
+
 }

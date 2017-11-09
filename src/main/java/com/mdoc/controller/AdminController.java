@@ -2,10 +2,13 @@ package com.mdoc.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -65,8 +68,12 @@ public class AdminController {
     @RequestMapping(value = "/admin/manage-users/{action}/{id}")
     public ModelAndView manageUsers(@PathVariable("action") String action, @PathVariable("id") int id) {
 	ModelAndView mav = new ModelAndView();
+	User user = null;
 	if (action.equals("edit")) {
-	    mav.setView(new RedirectView("/docs-app/admin/manage-users"));
+	    user = userService.getUserById(id);
+	    mav.addObject("user", user);
+	    mav.setViewName("/admin/editUser");
+
 	} else if (action.equals("delete")) {
 	    userService.deleteUser(id);
 	    mav.addObject("successMessage", "User removed successfully!!");
@@ -80,6 +87,32 @@ public class AdminController {
 	    mav.addObject("successMessage", "User is active now!!");
 	    mav.setView(new RedirectView("/docs-app/admin/manage-users"));
 	}
+	return mav;
+    }
+    
+    @RequestMapping(value = "/admin/manage-users/save-user-edit", method = RequestMethod.POST)
+    public ModelAndView saveUserEdit(@Valid User user, BindingResult bindResult) {
+	ModelAndView mav = new ModelAndView();
+	User userExists = userService.findUserByEmail(user.getEmail());
+	User updateUser = userService.getUserById(user.getId());
+
+	if (userExists != null) {
+	    bindResult.rejectValue("email", "error.user", "User already exists with Email id");
+	}
+
+	if (bindResult.hasErrors()) {
+	    mav.setViewName("/admin/manage-users/edit/" + user.getId() + "");
+	} else {
+	    updateUser.setName(user.getName());
+	    updateUser.setLastName(user.getLastName());
+	    updateUser.setEmail(user.getEmail());
+	    updateUser.setPassword(user.getPassword());
+	    updateUser.setRole(user.getRole());
+	    userService.saveUser(updateUser);
+	    mav.addObject("successMessage", "User Details updated successfully!!");
+	    mav.setView(new RedirectView("/docs-app/admin/home"));
+	}
+
 	return mav;
     }
 }
