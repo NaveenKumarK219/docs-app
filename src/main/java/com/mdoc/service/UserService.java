@@ -31,13 +31,26 @@ public class UserService {
 
     public void saveUser(User user) {
 	user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-	user.setActive(1);
+	user.setActive(true);
 	/*
 	 * Role userRole = roleRepository.findByRole("ADMIN"); user.setRoles(new
 	 * HashSet<Role>(Arrays.asList(userRole)));
 	 */
 	userRepository.save(user);
 
+    }
+
+    public void deleteUser(int id) {
+
+	userRepository.delete(userRepository.findById(id));
+    }
+
+    public void blockUser(int id) {
+	userRepository.blockUser(id);
+    }
+
+    public void unBlockUser(int id) {
+	userRepository.unBlockUser(id);
     }
 
 }

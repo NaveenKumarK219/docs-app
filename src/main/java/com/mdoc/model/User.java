@@ -34,7 +34,7 @@ public class User {
     @NotEmpty(message = "Please provide last name")
     private String lastName;
     @Column(name = "active")
-    private int active;
+    private boolean active;
     @Column(name = "role")
     @NotEmpty(message = "Please Select a role")
     private String role;
@@ -79,11 +79,11 @@ public class User {
 	return lastName;
     }
 
-    public void setActive(int active) {
+    public void setActive(boolean active) {
 	this.active = active;
     }
 
-    public int getActive() {
+    public boolean getActive() {
 	return active;
     }
 

@@ -68,8 +68,17 @@ public class AdminController {
 	if (action.equals("edit")) {
 	    mav.setView(new RedirectView("/docs-app/admin/manage-users"));
 	} else if (action.equals("delete")) {
+	    userService.deleteUser(id);
 	    mav.addObject("successMessage", "User removed successfully!!");
-	    mav.setView(new RedirectView("/docs-app/admin/home"));
+	    mav.setView(new RedirectView("/docs-app/admin/manage-users"));
+	} else if (action.equals("block")) {
+	    userService.blockUser(id);
+	    mav.addObject("successMessage", "User blocked successfully!!");
+	    mav.setView(new RedirectView("/docs-app/admin/manage-users"));
+	} else if (action.equals("unblock")) {
+	    userService.unBlockUser(id);
+	    mav.addObject("successMessage", "User is active now!!");
+	    mav.setView(new RedirectView("/docs-app/admin/manage-users"));
 	}
 	return mav;
     }
