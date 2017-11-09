@@ -61,9 +61,9 @@
 	                	<td th:text="${user.role}"></td>
 	                	<td>
 	                		<a th:href="@{/admin/manage-users/edit/{id}(id=${user.id})}"><i class="fa fa-edit" title="EDIT"></i></a>
-	                		<a th:href="@{/admin/manage-users/delete/{id}(id=${user.id})}"><i class="fa fa-trash-o" title="DELETE"></i></a>
-	                		<a th:href="@{/admin/manage-users/block/{id}(id=${user.id})}"><i class="fa fa-ban" title="BLOCK"></i></a>
+	                		<a th:href="@{/admin/manage-users/block/{id}(id=${user.id})}" th:if="${user.active==true}"><i class="fa fa-ban" title="BLOCK"></i></a>
 	                		<a th:href="@{/admin/manage-users/unblock/{id}(id=${user.id})}" th:if="${user.active==false}"><i class="fa fa-unlock" title="UNLOCK"></i></a>
+	                		<a th:href="@{/admin/manage-users/delete/{id}(id=${user.id})}"><i class="fa fa-trash-o" title="DELETE"></i></a>
 	                	</td>
                 	</tr>
                 </table>
