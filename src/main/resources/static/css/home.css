@@ -130,6 +130,9 @@ input[type="password"] {
 .container .info span .fa {
   color: #EF3B3A;
 }
+.validation-message {
+  color: red;
+}
 body {
   background: #76b852; /* fallback for old browsers */
   background: -webkit-linear-gradient(right, #0a75b3, #8DC26F);

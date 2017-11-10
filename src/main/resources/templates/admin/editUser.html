@@ -26,7 +26,7 @@
                 <div class="navbar-header">
                     <a class="navbar-brand" th:href="@{/admin/home}">Docs App</a>
                 </div>
-                <button style="float: right;" class="btn-danger btn-lg" type="button" onclick="javascript:location.href='/docs-app/logout';">LogOut</button>
+                <a th:href="@{/logout}"><button style="float: right;" class="btn-danger btn-lg" type="button">LogOut</button></a>
                 <div class="navbar-brand" sec:authorize="isAuthenticated()" style="float: right;">		
 		            <span>Logged-in User: </span>
 		            <span sec:authentication="name"></span> |					
@@ -41,36 +41,37 @@
             <div id="page-inner" >
                 <div style="padding-top: 75px;">
                 </div>
-                <h2>Edit User </h2>
+                <h2>Edit User : <span th:text="${user.email}"></span></h2>
                 <div class="form">
-				<form autocomplete="off" th:action="@{/admin/manage-users/save-user-edit}"
-					th:object="${user}" method="post" >
+				<form autocomplete="off" th:action="@{/admin/manage-users/save-user-edit}" th:object="${user}" method="post" >
+					<input type="hidden" th:field="*{id}" >
 					
 					<div >
 						First Name : <input type="text" th:field="*{name}" class="form-control" />
-						<label th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="validation-message"></label> 
+						<label th:if="${(param.errorField != null) and (param.errorField[0] eq 'name')}" th:text="${param.errorMessage[0]}" class="validation-message"></label> 
 					</div>
 
 					<div >
 						Last Name : <input type="text" th:field="*{lastName}" class="form-control" />
-						<label	th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="validation-message"></label> 
+						<label	th:if="${(param.errorField != null) and (param.errorField[0] eq 'lastName')}" th:text="${param.errorMessage[0]}" class="validation-message"></label> 
 					</div>
 					<div >
 						E-mail : <input type="text" th:field="*{email}" class="form-control" /> 
-						<label th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="validation-message"></label>
+						<label th:if="${(param.errorField != null) and (param.errorField[0] eq 'email')}" th:text="${param.errorMessage[0]}" class="validation-message"></label>
 					</div>
 					<div >
 						Password : <input type="password" th:field="*{password}" class="form-control" /> 
-						<label th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="validation-message"></label>
+						<label th:if="${(param.errorField != null) and (param.errorField[0] eq 'password')}" th:text="${param.errorMessage[0]}" class="validation-message"></label>
 					</div>
 					<div >
 						<input type="radio" th:field="*{role}" value="ADMIN" style="width: 20%;">ADMIN
 						<input type="radio" th:field="*{role}" value="EDITOR" style="width: 20%;">EDITOR
-						<label th:if="${#fields.hasErrors('role')}" th:errors="*{role}" class="validation-message"></label>
+						<label th:if="${(param.errorField != null) and (param.errorField[0] eq 'role')}" th:text="${param.errorMessage[0]}" class="validation-message"></label>
 					</div>
 
 					<div >
 						<button type="submit" class="btn btn-primary btn-block">Save</button>
+						<a th:href="@{/admin/manage-users}"><button type="button" class="btn btn-danger btn-block">Cancel</button></a>
 					</div>
 				</form>
 			</div>

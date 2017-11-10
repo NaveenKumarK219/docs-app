@@ -16,6 +16,12 @@
 	<div class="page">
 		<div class="navbar" >
 			<h3 style="padding: 0px 0px 0px 0px;"><a class="brand" th:href="@{/admin/home}">Docs App</a></h3>
+			<a th:href="@{/logout}"><button style="float: right;" class="btn-danger btn-lg" type="button">LogOut</button></a>
+                <div class="navbar-brand" sec:authorize="isAuthenticated()" style="float: right;">		
+		            <span>Logged-in User: </span>
+		            <span sec:authentication="name"></span> |					
+		            Role: <span sec:authentication="principal.authorities"></span>				
+       		 	</div>
 		</div>
 		<div class="overlay"></div>
 		<h3>Add New Document</h3>
@@ -23,7 +29,7 @@
 			
 			<input type="text" name="title" id="title" class="title-document form-control" placeholder="Title"/></br>
 			<button class="btn-primary btn-lg" type="button" value="SAVE" onclick="validateAndSaveDoc()" >Save</button>
-			<button class="btn-danger btn-lg" type="button" onclick="javascript:location.href='/docs-app/admin/home';">Cancel</button>
+			<a th:href="@{/admin/home}"><button class="btn-danger btn-lg" type="button">Cancel</button></a>
 			<div class="editor-header editor-header--first">
 				<h3 class="title">MARKDOWN</h3>
 			</div>

@@ -65,7 +65,7 @@ public class AdminController {
 	return mav;
     }
 
-    @RequestMapping(value = "/admin/manage-users/{action}/{id}")
+    @RequestMapping(value = "/admin/manage-users/{action}/{id}", method = RequestMethod.GET)
     public ModelAndView manageUsers(@PathVariable("action") String action, @PathVariable("id") int id) {
 	ModelAndView mav = new ModelAndView();
 	User user = null;
@@ -91,17 +91,19 @@ public class AdminController {
     }
     
     @RequestMapping(value = "/admin/manage-users/save-user-edit", method = RequestMethod.POST)
-    public ModelAndView saveUserEdit(@Valid User user, BindingResult bindResult) {
+    public ModelAndView saveUserEdit(@Valid User user, BindingResult bindResult,@RequestParam("resetPassword") Boolean resetPassword) {
 	ModelAndView mav = new ModelAndView();
 	User userExists = userService.findUserByEmail(user.getEmail());
 	User updateUser = userService.getUserById(user.getId());
 
-	if (userExists != null) {
+	if (userExists != null && !user.getEmail().equals(updateUser.getEmail())) {
 	    bindResult.rejectValue("email", "error.user", "User already exists with Email id");
 	}
 
 	if (bindResult.hasErrors()) {
-	    mav.setViewName("/admin/manage-users/edit/" + user.getId() + "");
+	    mav.addObject("errorField", bindResult.getFieldError().getField());
+	    mav.addObject("errorMessage", bindResult.getFieldError().getDefaultMessage());
+	    mav.setView(new RedirectView("/docs-app/admin/manage-users/edit/" + user.getId() + ""));
 	} else {
 	    updateUser.setName(user.getName());
 	    updateUser.setLastName(user.getLastName());
@@ -110,7 +112,7 @@ public class AdminController {
 	    updateUser.setRole(user.getRole());
 	    userService.saveUser(updateUser);
 	    mav.addObject("successMessage", "User Details updated successfully!!");
-	    mav.setView(new RedirectView("/docs-app/admin/home"));
+	    mav.setView(new RedirectView("/docs-app/admin/manage-users"));
 	}
 
 	return mav;

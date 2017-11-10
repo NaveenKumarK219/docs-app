@@ -2555,7 +2555,7 @@ textarea,
     text-decoration: inherit
 }
 
-a .fa,
+
 a .rst-content .admonition-title,
 .rst-content a .admonition-title,
 a .rst-content h1 .headerlink,
@@ -4242,7 +4242,7 @@ a:hover {
 }
 
 a:visited {
-    color: #9B59B6
+    
 }
 
 html {
