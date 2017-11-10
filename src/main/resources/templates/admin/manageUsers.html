@@ -26,7 +26,7 @@
                 <div class="navbar-header">
                     <a class="navbar-brand" th:href="@{/admin/home}">Docs App</a>
                 </div>
-                <button style="float: right;" class="btn-danger btn-lg" type="button" onclick="javascript:location.href='/docs-app/logout';">LogOut</button>
+                <a th:href="@{/logout}"><button style="float: right;" class="btn-danger btn-lg" type="button">LogOut</button></a>
                 <div class="navbar-brand" sec:authorize="isAuthenticated()" style="float: right;">		
 		            <span>Logged-in User: </span>
 		            <span sec:authentication="name"></span> |					

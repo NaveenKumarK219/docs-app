@@ -14,6 +14,12 @@
 	<div class="page">
 		<div class="navbar navbar-inverse navbar-fixed-top navbar-header" >
 			<h3 style="padding: 0px 0px 0px 0px;"><a class="brand" th:href="@{/admin/home}">Docs App</a></h3>
+			<a th:href="@{/logout}"><button style="float: right;" class="btn-danger btn-lg" type="button">LogOut</button></a>
+                <div class="navbar-brand" sec:authorize="isAuthenticated()" style="float: right;">		
+		            <span>Logged-in User: </span>
+		            <span sec:authentication="name"></span> |					
+		            Role: <span sec:authentication="principal.authorities"></span>				
+       		 	</div>
 		</div>
 		
 		<h3 style="padding-top: 75px;">APP Settings</h3>

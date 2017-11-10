@@ -30,8 +30,13 @@
 		    <input type="text" name="q" placeholder="Search docs" />
 		  </form>
 		</div>
-		<a  th:href="@{/login}" class="icon" th:if="${#strings.isEmpty(userName)}==true"><i class="fa fa-sign-in"></i> LOGIN</a>
-		<a  href="/login" class="icon" th:if="${#strings.isEmpty(userName)}==false" th:text="'${user} (ADMIN)'"></a>
+		<a  sec:authorize="isAnonymous()" th:href="@{/login}" class="icon" ><i class="fa fa-sign-in"></i> LOGIN</a>
+		<div class="wy-form" sec:authorize="isAuthenticated()">		
+            <span class="k">Logged-in User: </span>
+            <span sec:authentication="name"></span>	<br>		
+            <span class="k">Role: </span><span sec:authentication="principal.authorities"></span><br>
+            <a th:href="@{/admin/home}" style="color:white;"><i class="fa fa-tachometer"></i> Dashboard</a>
+       	</div>
       </div>
 
       &nbsp;
