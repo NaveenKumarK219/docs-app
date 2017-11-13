@@ -1,5 +1,6 @@
 package com.mdoc.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.mdoc.model.User;
 import com.mdoc.service.UserService;
+import com.mdoc.utility.Utilities;
 
 @Controller
 public class AdminController {
@@ -115,6 +117,27 @@ public class AdminController {
 	    mav.setView(new RedirectView("/docs-app/admin/manage-users"));
 	}
 
+	return mav;
+    }
+
+    @RequestMapping(value = "/admin/app-settings", method = RequestMethod.GET)
+    public ModelAndView appSettings() {
+	ModelAndView mav = new ModelAndView();
+	mav.setViewName("/admin/appSettings");
+	return mav;
+    }
+
+    @RequestMapping(value = "/admin/app-settings", method = RequestMethod.POST)
+    public ModelAndView saveSettings(@RequestParam("doc-app-name") String docAppName,
+	    @RequestParam("copy-right") String copyright) {
+	ModelAndView mav = new ModelAndView();
+	Utilities util = new Utilities();
+	HashMap<String, String> propHash = new HashMap<>();
+	propHash.put("appName", docAppName);
+	propHash.put("copyRight", copyright);
+	util.saveProperties(propHash);
+	mav.addObject("successMessage", "App settings applied successfully!!");
+	mav.setView(new RedirectView("../admin/home"));
 	return mav;
     }
 }

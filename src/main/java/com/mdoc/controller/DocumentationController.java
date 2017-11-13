@@ -7,11 +7,11 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.Properties;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -24,6 +24,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.mdoc.model.TableOfContents;
 import com.mdoc.service.DocumentService;
+import com.mdoc.utility.Utilities;
 
 /**
  * This class is a controller which contains the main functionality of the
@@ -40,8 +41,7 @@ public class DocumentationController {
     @Autowired
     private DocumentService documentService;
 
-    @Value("Docs App")
-    String docName;
+    Properties properties = new Utilities().loadProperties();
     /**
      * This method is called after the application is started. It will give the
      * welcome page for the application.
@@ -67,7 +67,7 @@ public class DocumentationController {
 	mav.addObject("markdownHtml", htmlContent);
 	mav.addObject("toc", tocList);
 	mav.addObject("title", "Home");
-	mav.addObject("docName", docName);
+	mav.addObject("appName", properties.getProperty("appName"));
 	mav.setViewName("viewDoc");
 	return mav;
 
@@ -100,7 +100,9 @@ public class DocumentationController {
 	mav.addObject("toc", tocList);
 	mav.addObject("title", title);
 	mav.addObject("userName", userName);
-	mav.addObject("docName", docName);
+	System.out.println(properties.getProperty("appName"));
+	System.out.println(properties.getProperty("copyRight"));
+	mav.addObject("appName", properties.getProperty("appName"));
 	mav.setViewName("viewDoc");
 	return mav;
     }
@@ -211,18 +213,4 @@ public class DocumentationController {
 	return mav;
     }
 
-    @RequestMapping(value = "/admin/app-settings", method = RequestMethod.GET)
-    public ModelAndView appSettings() {
-	ModelAndView mav = new ModelAndView();
-	mav.setViewName("/admin/appSettings");
-	return mav;
-    }
-    
-    @RequestMapping(value="/admin/app-settings",method=RequestMethod.POST)
-    public ModelAndView saveSettings(@RequestParam("appName") String appName) {
-	ModelAndView mav = new ModelAndView();
-
-	mav.setView(new RedirectView("../admin/home"));
-	return mav;
-    }
 }

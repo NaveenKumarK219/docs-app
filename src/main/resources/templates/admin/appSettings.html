@@ -1,37 +1,88 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Settings</title>
-	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
-	<script	th:src="@{/js/jquery-2.2.0.min.js}"></script>
-	<script	th:src="@{/js/bootstrap.min.js}"></script>
- 
-  	<link rel="shortcut icon" th:href="@{/img/favicon.ico}">
+<title>App Settings</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" />
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+<script	th:src="@{/js/jquery-2.2.0.min.js}"></script>
+<script	th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/bootbox.min.js}"></script>
 
-  	<link rel="stylesheet" th:href="@{/css/theme.css}" type="text/css" />
+    <!-- GOOGLE FONTS-->
+   <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+  
+  <link rel="shortcut icon" th:href="@{/img/favicon.ico}">
+
+  <link rel="stylesheet" th:href="@{/css/theme.css}" type="text/css" />
 </head>
 <body>
-	<div class="page">
-		<div class="navbar navbar-inverse navbar-fixed-top navbar-header" >
-			<h3 style="padding: 0px 0px 0px 0px;"><a class="brand" th:href="@{/admin/home}">Docs App</a></h3>
-			<a th:href="@{/logout}"><button style="float: right;" class="btn-danger btn-lg" type="button">LogOut</button></a>
+	<div id="wrapper">
+         <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="adjust-nav">
+                <div class="navbar-header">
+                    <a class="navbar-brand" th:href="@{/admin/home}">Docs App</a>
+                </div>
+                <a th:href="@{/logout}"><button style="float: right;" class="btn-danger btn-lg" type="button">LogOut</button></a>
                 <div class="navbar-brand" sec:authorize="isAuthenticated()" style="float: right;">		
 		            <span>Logged-in User: </span>
 		            <span sec:authentication="name"></span> |					
 		            Role: <span sec:authentication="principal.authorities"></span>				
        		 	</div>
-		</div>
-		
-		<h3 style="padding-top: 75px;">APP Settings</h3>
-		<form th:action="@{/admin/app-settings}" method="post">
-		<span>Doc App Name : </span>
-			<input type="text" id="appName" name="appName" placeholder="Docs App" /></br>
-		<span>Copy Right : </span>
-			<input type="text" name="copyRight" id="copyRight" placeholder="Copy Right info" />	
-		<button type="submit" class="btn-primary btn-lg">SAVE</button>
-		</form>
-	</div>
+       		 	
+            </div>
+        </div>
+        <!-- /. NAV TOP  -->
 
+        <div id="page-wrapper" >
+            <div id="page-inner" >
+                <div style="padding-top: 75px;">
+                </div>
+                <h2>App Settings </h2>
+                <div class="form">
+				<form autocomplete="off" th:action="@{/admin/app-settings}" method="post" >
+					
+					<div >
+						Doc-App Name : <input type="text" class="form-control" id="doc-app-name" name="doc-app-name" placeholder="Example : Docs-App"/>
+					</div>
+
+					<!-- <div >
+						File-Path :<input type="text" class="form-control">
+						<input type="file" id="docs-folder-path" onchange="selectFolder(event)" class="form-control" webkitdirectory mozdirectory msdirectory odirectory directory multiple />
+						 
+					</div> -->
+					<div >
+						CopyRight : <input type="text" class="form-control" id="copy-right" name="copy-right" placeholder="your copyright message"/> 
+						
+					</div>
+					<div >
+						<button type="submit" class="btn btn-primary btn-block">Save</button><br>
+						<a th:href="@{/admin/home}"><button type="button" class="btn btn-danger btn-block">Cancel</button></a>
+					</div>
+				</form>
+			</div>
+            </div>
+             <!-- /. PAGE INNER  -->
+        </div>
+         <!-- /. PAGE WRAPPER  -->
+        </div>
+    <div class="footer" style="position: absolute;bottom: 0;">
+      
+    
+            <div class="row">
+                <div class="col-lg-12 alert" >
+                    &copy; 2017 - Docs App.
+                </div>
+            </div>
+    </div>
+    
+<script type="text/javascript">
+function selectFolder(e) {
+    var files = e.target.files;
+    var relativePath = files[0].webkitRelativePath;
+    var folder = relativePath.split("/");
+    console.log(folder[0]);
+}
+</script>
 
 </body>
 </html>
