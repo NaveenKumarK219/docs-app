@@ -48,7 +48,6 @@ public class Utilities {
 	    while (keySet.hasNext()) {
 		key = keySet.next();
 		prop.setProperty(key, propHash.get(key));
-		System.out.println(key);
 	    }
 	    prop.store(fos, null);
 	} catch (Exception e) {

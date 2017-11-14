@@ -60,9 +60,6 @@ public class AdminController {
     public ModelAndView showManageUsers() {
 	ModelAndView mav = new ModelAndView();
 	List<User> userList = userService.getUsers();
-	/*for (User user : userList) {
-	    System.out.println(user.getName());
-	}*/
 	mav.addObject("users", userList);
 	mav.setViewName("/admin/manageUsers");
 	return mav;

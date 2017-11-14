@@ -2,8 +2,8 @@ package com.mdoc.controller;
 
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
+import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
@@ -54,17 +54,22 @@ public class DocumentationController {
     public ModelAndView home(HttpSession session) throws IOException {
 
 	ModelAndView mav = new ModelAndView();
+	File file = null;
 	properties = new Utilities().loadProperties();
 	List<TableOfContents> tocList = documentService.getTableOfContents();
 	String htmlContent = null;
 	if (tocList.size() == 0) {
 	    mav.setViewName("viewDoc");
-	    htmlContent = documentService.markdownToHtmlConverter("welcomePage", session.getServletContext().getRealPath("WEB-INF/classes/markdown/welcomePage.md"), session);
+	    htmlContent = documentService.markdownToHtmlConverter("welcomePage", session.getServletContext().getRealPath("WEB-INF/classes/markdown"), session);
 	    mav.addObject("markdownHtml", htmlContent);
 	    mav.addObject("title", "Get Started");
 	    return mav;
 	}
-	htmlContent = documentService.markdownToHtmlConverter("home", filePath, session);
+	file = new File(filePath+"/home.md");
+	if(file.exists())
+	    htmlContent = documentService.markdownToHtmlConverter("home", filePath, session);
+	else
+	    htmlContent = documentService.markdownToHtmlConverter("home", session.getServletContext().getRealPath("WEB-INF/classes/markdown"), session);
 	mav.addObject("markdownHtml", htmlContent);
 	mav.addObject("toc", tocList);
 	mav.addObject("title", "Home");
@@ -101,8 +106,6 @@ public class DocumentationController {
 	mav.addObject("toc", tocList);
 	mav.addObject("title", title);
 	mav.addObject("userName", userName);
-	System.out.println(properties.getProperty("appName"));
-	System.out.println(properties.getProperty("copyRight"));
 	mav.addObject("appName", properties.getProperty("appName"));
 	mav.setViewName("viewDoc");
 	return mav;
@@ -162,14 +165,22 @@ public class DocumentationController {
      * @param session
      * @param title
      * @return ModelAndView
-     * @throws FileNotFoundException
+     * @throws IOException
      */
     @RequestMapping(value = "/admin/editDoc/{title}", method = RequestMethod.GET)
     public ModelAndView editDocument(HttpSession session, @PathVariable("title") String title)
-	    throws FileNotFoundException {
+	    throws IOException {
 	ModelAndView mav = new ModelAndView();
 	String fileName = documentService.getDocFileName(title);
-	DataInputStream dis = new DataInputStream(new FileInputStream(filePath + "/" + fileName + ".md"));
+	if (fileName == null)
+	    fileName = "home";
+	DataInputStream dis = null;
+	File file = new File(filePath+"/home.md");
+	if (fileName.equals("home") && !file.exists())
+	    dis = new DataInputStream(new FileInputStream(session.getServletContext().getRealPath("WEB-INF/classes/markdown/home.md")));
+	else
+	    dis = new DataInputStream(new FileInputStream(filePath + "/" + fileName + ".md"));
+
 	byte[] markdownByte = null;
 	try {
 	    markdownByte = new byte[dis.available()];
@@ -193,12 +204,17 @@ public class DocumentationController {
      * @param title
      * @param markdownText
      * @return
+     * @throws IOException
      */
     @RequestMapping(value = "/admin/saveDoc", method = RequestMethod.POST)
     public ModelAndView saveDocument(HttpSession session, @RequestParam("title") String title,
-	    @RequestParam("markdownText") String markdownText) {
+	    @RequestParam("markdownText") String markdownText) throws IOException {
 	ModelAndView mav = new ModelAndView();
+	File file = new File(filePath + "/home.md");
+	file.createNewFile();
 	String fileName = documentService.getDocFileName(title);
+	if (fileName == null)
+	    fileName = "home";
 	System.out.println("Title: " + title + " File Name: " + fileName);
 
 	try (BufferedWriter bWriter = new BufferedWriter(new FileWriter(filePath + "/" + fileName + ".md"))) {
@@ -209,7 +225,6 @@ public class DocumentationController {
 	}
 	mav.addObject("title", title);
 	mav.addObject("successMessage", " Doc Edited successfully!!!");
-	// mav.setViewName("/admin/home");
 	mav.setView(new RedirectView("../admin/home"));
 	return mav;
     }
