@@ -18,6 +18,8 @@ CREATE TABLE users
   CONSTRAINT users_pkey PRIMARY KEY (user_id)
 );
 
+INSERT INTO users (email,active,last_name,name,password,role) values('admin@doc.com',true,'admin','admin','$2a$10$pNOQHgXFKcfrqzdgsPI2oOBJlXaGiAWQqh8fy2sAV9cOtpzfiyBf.','ADMIN');
+
 --------------Table Of Contents for storing filenames and titles----------
 
 CREATE TABLE table_of_contents

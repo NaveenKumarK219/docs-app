@@ -3,6 +3,7 @@ package com.mdoc.controller;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -129,7 +130,7 @@ public class AdminController {
 
     @RequestMapping(value = "/admin/app-settings", method = RequestMethod.POST)
     public ModelAndView saveSettings(@RequestParam("doc-app-name") String docAppName,
-	    @RequestParam("copy-right") String copyright) {
+	    @RequestParam("copy-right") String copyright, HttpSession session) {
 	ModelAndView mav = new ModelAndView();
 	Utilities util = new Utilities();
 	HashMap<String, String> propHash = new HashMap<>();

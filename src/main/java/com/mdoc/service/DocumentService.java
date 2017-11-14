@@ -1,10 +1,8 @@
 package com.mdoc.service;
 
 import java.io.DataInputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
@@ -15,8 +13,6 @@ import org.pegdown.PegDownProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.google.gson.Gson;
-import com.mdoc.model.AppProperties;
 import com.mdoc.model.TableOfContents;
 import com.mdoc.repository.DocumentRepository;
 

@@ -41,7 +41,7 @@ public class DocumentationController {
     @Autowired
     private DocumentService documentService;
 
-    Properties properties = new Utilities().loadProperties();
+    Properties properties;
     /**
      * This method is called after the application is started. It will give the
      * welcome page for the application.
@@ -54,10 +54,11 @@ public class DocumentationController {
     public ModelAndView home(HttpSession session) throws IOException {
 
 	ModelAndView mav = new ModelAndView();
+	properties = new Utilities().loadProperties();
 	List<TableOfContents> tocList = documentService.getTableOfContents();
 	String htmlContent = null;
-	if (tocList.size() == 1) {
-	    mav.setViewName("welcomePage");
+	if (tocList.size() == 0) {
+	    mav.setViewName("viewDoc");
 	    htmlContent = documentService.markdownToHtmlConverter("welcomePage", session.getServletContext().getRealPath("WEB-INF/classes/markdown/welcomePage.md"), session);
 	    mav.addObject("markdownHtml", htmlContent);
 	    mav.addObject("title", "Get Started");
