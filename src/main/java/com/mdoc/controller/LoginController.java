@@ -1,5 +1,7 @@
 package com.mdoc.controller;
 
+import java.util.Properties;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -16,6 +18,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.mdoc.model.User;
 import com.mdoc.service.UserService;
+import com.mdoc.utility.Utilities;
 
 /**
  * This controller will provide the basic operations fo users. Like
@@ -30,6 +33,8 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
+    Properties properties;
+
     /**
      * This method opens up the login page if user is not authenticated
      * otherwise redirects the user to admin home page.
@@ -41,13 +46,17 @@ public class LoginController {
     public ModelAndView login(HttpServletRequest request) {
 	ModelAndView mav = new ModelAndView();
 	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	properties = new Utilities().loadProperties();
 	User user = userService.findUserByEmail(auth.getName());
 	request.getSession().setAttribute("user", user);
 	mav.addObject("user", user);
 	if (!(auth instanceof AnonymousAuthenticationToken)) {
+	    mav.addObject("appName", properties.getProperty("appName"));
+	    mav.addObject("copyRight", properties.getProperty("copyRight"));
 	    mav.setViewName("/admin/home");
 	    return mav;
 	}
+	mav.addObject("appName", properties.getProperty("appName"));
 	mav.setViewName("login");
 	return mav;
     }
@@ -62,6 +71,7 @@ public class LoginController {
 	ModelAndView mav = new ModelAndView();
 	User user = new User();
 	mav.addObject("user", user);
+	mav.addObject("appName", properties.getProperty("appName"));
 	mav.setViewName("registration");
 	return mav;
     }
@@ -105,8 +115,11 @@ public class LoginController {
     public ModelAndView home(HttpServletRequest request) {
 	ModelAndView mav = new ModelAndView();
 	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	properties = new Utilities().loadProperties();
 	User user = userService.findUserByEmail(auth.getName());
 	mav.addObject("user", user);
+	mav.addObject("appName", properties.getProperty("appName"));
+	mav.addObject("copyRight", properties.getProperty("copyRight"));
 	mav.setViewName("/admin/home");
 	return mav;
 

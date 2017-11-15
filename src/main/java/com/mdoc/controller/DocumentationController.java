@@ -74,6 +74,7 @@ public class DocumentationController {
 	mav.addObject("toc", tocList);
 	mav.addObject("title", "Home");
 	mav.addObject("appName", properties.getProperty("appName"));
+	mav.addObject("copyRight", properties.getProperty("copyRight"));
 	mav.setViewName("viewDoc");
 	return mav;
 
@@ -107,6 +108,7 @@ public class DocumentationController {
 	mav.addObject("title", title);
 	mav.addObject("userName", userName);
 	mav.addObject("appName", properties.getProperty("appName"));
+	mav.addObject("copyRight", properties.getProperty("copyRight"));
 	mav.setViewName("viewDoc");
 	return mav;
     }
@@ -120,6 +122,8 @@ public class DocumentationController {
     @RequestMapping(value = "/admin/newDoc")
     public ModelAndView newDocument() throws IOException {
 	ModelAndView mav = new ModelAndView();
+	mav.addObject("appName", properties.getProperty("appName"));
+	mav.addObject("copyRight", properties.getProperty("copyRight"));
 	mav.setViewName("/admin/createNewDoc");
 
 	return mav;
@@ -193,6 +197,8 @@ public class DocumentationController {
 	String markdownText = new String(markdownByte);
 	mav.addObject("title", title);
 	mav.addObject("markdownText", markdownText);
+	mav.addObject("appName", properties.getProperty("appName"));
+	mav.addObject("copyRight", properties.getProperty("copyRight"));
 	mav.setViewName("/admin/editDoc");
 	return mav;
     }

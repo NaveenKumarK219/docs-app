@@ -17,7 +17,7 @@
 					th:object="${user}" method="post" role="form" class="login-form">
 					
 					<span th:utext="${successMessage}"></span>
-					<h1 class="form-signin-heading"><a th:href="@{/admin/home}">Docs App</a></h1>
+					<h1 class="form-signin-heading"><a th:href="@{/admin/home}" th:text="${appName}">Docs App</a></h1>
 					<h2 class="form-signin-heading">Registration</h2>
 					<div >
 						<input type="text" th:field="*{name}" placeholder="Name" class="form-control" />

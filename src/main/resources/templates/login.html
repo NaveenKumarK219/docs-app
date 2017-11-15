@@ -15,7 +15,7 @@
 <body>	
 	<div class="login-page">
 	  <div class="form">
-	  	<h2 class="form-signin-heading">Docs App</h2>
+	  	<h2 class="form-signin-heading" th:text="${appName}">Docs App</h2>
 	  	<div align="center" th:if="${param.error}">
 			<p style="font-size: 20; color: #FF1C19;">Email or Password invalid, please verify</p>
 		</div>

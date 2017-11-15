@@ -22,7 +22,7 @@
          <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="adjust-nav">
                 <div class="navbar-header">
-                    <a class="navbar-brand" th:href="@{/admin/home}">Docs App</a>
+                    <a class="navbar-brand" th:href="@{/admin/home}" th:text="${appName}">Docs App</a>
                 </div>
                 <a th:href="@{/logout}"><button style="float: right;" class="btn-danger btn-lg" type="button">LogOut</button></a>
                 <div class="navbar-brand" sec:authorize="isAuthenticated()" style="float: right;">		
@@ -138,7 +138,7 @@
     
             <div class="row">
                 <div class="col-lg-12 alert" >
-                    &copy; 2017 - Docs App.
+                    <p th:text="${copyRight}"> &copy; 2017 - Docs App.</p>
                 </div>
             </div>
         </div>

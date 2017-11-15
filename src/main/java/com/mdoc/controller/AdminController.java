@@ -2,6 +2,7 @@ package com.mdoc.controller;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Properties;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -28,10 +29,13 @@ public class AdminController {
     @Autowired
     UserService userService;
 
+    Properties properties = new Utilities().loadProperties();
+
     @RequestMapping(value = "/admin/change-password", method = RequestMethod.GET)
     public ModelAndView changePasswordForm() {
 	ModelAndView mav = new ModelAndView();
-	
+	mav.addObject("appName", properties.getProperty("appName"));
+	mav.addObject("copyRight", properties.getProperty("copyRight"));
 	mav.setViewName("/admin/changePassword");
 	return mav;
     }
@@ -61,6 +65,8 @@ public class AdminController {
 	ModelAndView mav = new ModelAndView();
 	List<User> userList = userService.getUsers();
 	mav.addObject("users", userList);
+	mav.addObject("appName", properties.getProperty("appName"));
+	mav.addObject("copyRight", properties.getProperty("copyRight"));
 	mav.setViewName("/admin/manageUsers");
 	return mav;
     }
@@ -72,6 +78,8 @@ public class AdminController {
 	if (action.equals("edit")) {
 	    user = userService.getUserById(id);
 	    mav.addObject("user", user);
+	    mav.addObject("appName", properties.getProperty("appName"));
+	    mav.addObject("copyRight", properties.getProperty("copyRight"));
 	    mav.setViewName("/admin/editUser");
 
 	} else if (action.equals("delete")) {
@@ -121,6 +129,8 @@ public class AdminController {
     @RequestMapping(value = "/admin/app-settings", method = RequestMethod.GET)
     public ModelAndView appSettings() {
 	ModelAndView mav = new ModelAndView();
+	mav.addObject("appName", properties.getProperty("appName"));
+	mav.addObject("copyRight", properties.getProperty("copyRight"));
 	mav.setViewName("/admin/appSettings");
 	return mav;
     }
@@ -134,6 +144,7 @@ public class AdminController {
 	propHash.put("appName", docAppName);
 	propHash.put("copyRight", copyright);
 	util.saveProperties(propHash);
+	properties = new Utilities().loadProperties();
 	mav.addObject("successMessage", "App settings applied successfully!!");
 	mav.setView(new RedirectView("../admin/home"));
 	return mav;

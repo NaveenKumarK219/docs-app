@@ -15,7 +15,7 @@
 <body>
 	<div class="page">
 		<div class="navbar" >
-			<h3 style="padding: 0px 0px 0px 0px;" class="navbar-brand"><a class="brand" th:href="@{/admin/home}">Docs App</a></h3>
+			<h3 style="padding: 0px 0px 0px 0px;" class="navbar-brand"><a class="brand" th:href="@{/admin/home}" th:text="${appName}">Docs App</a></h3>
             <div class="nav nav-right" sec:authorize="isAuthenticated()" style="font-family: lato;font-size: large;color: white;">	
 	          <span>Logged-in User: </span>
 	          <span sec:authentication="name"></span> |					
