@@ -99,7 +99,7 @@ public class AdminController {
     }
     
     @RequestMapping(value = "/admin/manage-users/save-user-edit", method = RequestMethod.POST)
-    public ModelAndView saveUserEdit(@Valid User user, BindingResult bindResult,@RequestParam("resetPassword") Boolean resetPassword) {
+    public ModelAndView saveUserEdit(@Valid User user, BindingResult bindResult) {
 	ModelAndView mav = new ModelAndView();
 	User userExists = userService.findUserByEmail(user.getEmail());
 	User updateUser = userService.getUserById(user.getId());

@@ -41,7 +41,7 @@ public class DocumentationController {
     @Autowired
     private DocumentService documentService;
 
-    Properties properties;
+    Properties properties = new Utilities().loadProperties();
     /**
      * This method is called after the application is started. It will give the
      * welcome page for the application.
