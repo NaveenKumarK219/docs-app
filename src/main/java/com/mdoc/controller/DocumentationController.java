@@ -36,7 +36,7 @@ import com.mdoc.utility.Utilities;
 @Controller
 public class DocumentationController {
 
-    private final String filePath = "/home/" + System.getProperty("user.name") + "/docs";
+    private final String filePath = System.getenv("HOME") + "/docs";
 
     @Autowired
     private DocumentService documentService;
@@ -54,6 +54,10 @@ public class DocumentationController {
     public ModelAndView home(HttpSession session) throws IOException {
 
 	ModelAndView mav = new ModelAndView();
+	File directory = new File(filePath);
+	if (!directory.exists()) {
+	    directory.mkdir();
+	}
 	File file = null;
 	properties = new Utilities().loadProperties();
 	List<TableOfContents> tocList = documentService.getTableOfContents();

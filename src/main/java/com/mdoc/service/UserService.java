@@ -7,7 +7,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.mdoc.model.User;
-import com.mdoc.repository.RoleRepository;
 import com.mdoc.repository.UserRepository;
 
 @Service("userService")
@@ -15,8 +14,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private RoleRepository roleRepository;
+    /*
+     * @Autowired private RoleRepository roleRepository;
+     */
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 

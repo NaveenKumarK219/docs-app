@@ -44,18 +44,12 @@
 					<div >
 						Doc-App Name : <input type="text" class="form-control" id="doc-app-name" name="doc-app-name" placeholder="Example : Docs-App"/>
 					</div>
-
-					<!-- <div >
-						File-Path :<input type="text" class="form-control">
-						<input type="file" id="docs-folder-path" onchange="selectFolder(event)" class="form-control" webkitdirectory mozdirectory msdirectory odirectory directory multiple />
-						 
-					</div> -->
 					<div >
 						CopyRight : <input type="text" class="form-control" id="copy-right" name="copy-right" placeholder="your copyright message"/> 
 						
 					</div>
 					<div >
-						<button type="submit" class="btn btn-primary btn-block">Save</button><br>
+						<button type="button" onclick="validateAndSave()" class="btn btn-primary btn-block">Save</button><br>
 						<a th:href="@{/admin/home}"><button type="button" class="btn btn-danger btn-block">Cancel</button></a>
 					</div>
 				</form>
@@ -74,15 +68,31 @@
                 </div>
             </div>
     </div>
-    
 <script type="text/javascript">
-function selectFolder(e) {
-    var files = e.target.files;
-    var relativePath = files[0].webkitRelativePath;
-    var folder = relativePath.split("/");
-    console.log(folder[0]);
-}
+	function validateAndSave(){
+		var  docName = document.getElementById("doc-app-name").value;
+		var  copyRight = document.getElementById("copy-right").value;
+		var regExp = /[a-zA-Z]/;
+		
+		if(docName == null || docName == ''){
+			bootbox.alert("Application Name cannot be empty!!!");
+			return false;
+		} else if(!regExp.test(docName)){
+			bootbox.alert("Please enter a valid App Name!!! Try removing empty spaces!!!");
+			return false;
+		}
+		
+		if(copyRight == null || copyRight == ''){
+			bootbox.alert("Copy Right shouldn't be empty! Atleast enter a line!");
+			return false;
+		} else if(!regExp.test(copyRight)){
+			bootbox.alert("Please remove unnecessary white spaces and try again!!!");
+			return false;
+		}
+		
+		document.forms[0].action='/docs-app/admin/app-settings';
+		document.forms[0].submit();
+	}
 </script>
-
 </body>
 </html>

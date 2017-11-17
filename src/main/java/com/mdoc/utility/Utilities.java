@@ -10,7 +10,7 @@ import java.util.Properties;
 
 public class Utilities {
 
-    private final String filePath = "/home/" + System.getProperty("user.name") + "/docs";
+    private final String filePath = System.getenv("HOME") + "/docs";
 
     public Properties loadProperties() {
 	Properties prop = new Properties();
