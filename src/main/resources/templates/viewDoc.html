@@ -12,7 +12,7 @@
   <link rel="stylesheet" th:href="@{/css/theme_extra.css}" type="text/css" />
   <link rel="stylesheet" th:href="@{/css/highlight.css}">
 
-  <script th:src="@{/js/jquery.js}"></script>
+  <script th:src="@{/js/jquery-2.2.0.min.js}"></script>
   <script th:src="@{/js/modernizr-2.8.3.min.js}"></script>
   <script type="text/javascript" th:src="@{/js/highlight.pack.js}"></script>
   <script th:src="@{/js/theme.js}"></script> 
@@ -29,18 +29,18 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
       <div class="wy-side-nav-search">
         <a th:href="@{/}" class="icon icon-home" th:text="${appName}"> Docs App</a>
-        <div role="search">
+        <!-- <div role="search">
 		  <form id ="rtd-search-form" class="wy-form" th:action="@{/search}" method="get">
 		    <input type="text" name="q" placeholder="Search docs" />
 		  </form>
-		</div>
+		</div> -->
 		<a  sec:authorize="isAnonymous()" th:href="@{/login}" class="icon" ><i class="fa fa-sign-in"></i> LOGIN</a>
 		<div class="wy-form" sec:authorize="isAuthenticated()">		
             <span class="k">Logged-in User: </span>
             <span sec:authentication="name"></span>	<br>		
             <span class="k">Role: </span><span sec:authentication="principal.authorities"></span><br>
-            <a th:href="@{/admin/home}" style="color:white;"><i class="fa fa-tachometer"></i> Dashboard  </a>
-            <a th:href="@{/logout}" style="color:white;"><i class="fa fa-sign-out"></i> LogOut</a>
+            <a th:href="@{/admin/home}" style="color:white; padding: 5px;"><i class="fa fa-tachometer"></i> Dashboard  </a>
+            <a th:href="@{/logout}" style="color:white;padding: 5px;"><i class="fa fa-sign-out"></i> LogOut</a>
        	</div>
       </div>
 
@@ -91,6 +91,6 @@
     </section>
 
   </div>
-  
+ 
 </body>
 </html>

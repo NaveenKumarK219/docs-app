@@ -25,11 +25,11 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
       <div class="wy-side-nav-search">
         <a th:href="@{/}" class="icon icon-home"> HOME </a>
-        <div role="search">
+        <!-- <div role="search">
 		  <form id ="rtd-search-form" class="wy-form" th:action="@{/search}" method="get">
 		    <input type="text" name="q" placeholder="Search docs" />
 		  </form>
-		</div>
+		</div> -->
 		<a  sec:authorize="isAnonymous()" th:href="@{/login}" class="icon" ><i class="fa fa-sign-in"></i> LOGIN</a>
 		<div class="wy-form" sec:authorize="isAuthenticated()">		
             <span class="k">Logged-in User: </span>
