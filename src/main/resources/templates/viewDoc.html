@@ -21,8 +21,8 @@
 
 <body class="wy-body-for-nav" role="document">
   
-  <input type="hidden" id="markdownText" value="${markdownText}"/>
-  <input type="hidden" value="${toc}"/>
+  <!-- <input type="hidden" id="markdownText" value="${markdownText}"/>
+  <input type="hidden" value="${toc}"/> -->
   
   <div class="wy-grid-for-nav">
 
@@ -46,7 +46,7 @@
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation" id="doc-menu">
 		<ul class="current">
-			<li th:each="item : ${toc}" th:class="${item.title} eq ${title} ? 'current'">
+			<li th:each="item : ${tocList}" th:class="${item.title} eq ${title} ? 'current'">
 				<a th:href="@{/docs/{title}(title=${item.title})}" th:text="${item.title}" ></a>
 			</li>
 		</ul>
@@ -75,6 +75,10 @@
           <div role="main">
             <div class="section" th:utext="${markdownHtml}">
               
+            </div>
+            <div class="section" sec:authorize="isAuthenticated()" th:unless="(${title} eq 'Home') or (${title} eq 'Get Started') ">
+            	<p th:unless="${toc.author == null}"><b>Author :</b> <span th:utext="${toc.author}"></span>    <b>Created on :</b> <span th:utext="${toc.created_dtm}"></span></p>
+            	<p th:unless="${toc.edited_by == null}"><b>Edited by :</b> <span th:utext="${toc.edited_by}"></span>   <b>on</b> <span th:utext="${toc.edited_dtm}"></span></p>
             </div>
           </div>
           <footer>

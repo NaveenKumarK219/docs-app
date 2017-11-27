@@ -20,6 +20,8 @@ public interface DocumentRepository extends JpaRepository<TableOfContents, Seria
 
     // Gets all from TableOfContents order by id
     public List<TableOfContents> findAllByOrderById();
+
+    public TableOfContents findByTitle(String title);
     
 
 }

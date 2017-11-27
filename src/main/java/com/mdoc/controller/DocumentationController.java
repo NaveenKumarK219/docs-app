@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Properties;
 
@@ -42,6 +43,8 @@ public class DocumentationController {
     private DocumentService documentService;
 
     Properties properties = new Utilities().loadProperties();
+
+    Authentication auth;
     /**
      * This method is called after the application is started. It will give the
      * welcome page for the application.
@@ -75,7 +78,7 @@ public class DocumentationController {
 	else
 	    htmlContent = documentService.markdownToHtmlConverter("home", session.getServletContext().getRealPath("WEB-INF/classes/markdown"), session);
 	mav.addObject("markdownHtml", htmlContent);
-	mav.addObject("toc", tocList);
+	mav.addObject("tocList", tocList);
 	mav.addObject("title", "Home");
 	mav.addObject("appName", properties.getProperty("appName"));
 	mav.addObject("copyRight", properties.getProperty("copyRight"));
@@ -97,18 +100,20 @@ public class DocumentationController {
     @RequestMapping(value = "/docs/{title}", method = RequestMethod.GET)
     public ModelAndView viewDocument(@PathVariable String title, HttpSession session) throws IOException {
 	ModelAndView mav = new ModelAndView();
-	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	auth = SecurityContextHolder.getContext().getAuthentication();
 	String userName = null;
 	if (auth != null) {
 	    userName = auth.getName();
 	}
 	List<TableOfContents> tocList = documentService.getTableOfContents();
+	TableOfContents toc = documentService.getTableOfContentsOnTitle(title);
 	String fileName = documentService.getDocFileName(title);
 
 	String htmlContent = documentService.markdownToHtmlConverter(fileName, filePath, session);
 	
 	mav.addObject("markdownHtml", htmlContent);
-	mav.addObject("toc", tocList);
+	mav.addObject("tocList", tocList);
+	mav.addObject("toc", toc);
 	mav.addObject("title", title);
 	mav.addObject("userName", userName);
 	mav.addObject("appName", properties.getProperty("appName"));
@@ -126,6 +131,7 @@ public class DocumentationController {
     @RequestMapping(value = "/admin/newDoc")
     public ModelAndView newDocument() throws IOException {
 	ModelAndView mav = new ModelAndView();
+	auth = SecurityContextHolder.getContext().getAuthentication();
 	mav.addObject("appName", properties.getProperty("appName"));
 	mav.addObject("copyRight", properties.getProperty("copyRight"));
 	mav.setViewName("/admin/createNewDoc");
@@ -155,6 +161,8 @@ public class DocumentationController {
 	    bWriter.write(markdownText);
 	    toc.setTitle(title);
 	    toc.setFileName(fileName);
+	    toc.setAuthor(auth.getName());
+	    toc.setCreated_dtm(Calendar.getInstance().getTime());
 	    documentService.setTableOfContents(toc);
 	} catch (IOException e) {
 
@@ -179,6 +187,7 @@ public class DocumentationController {
     public ModelAndView editDocument(HttpSession session, @PathVariable("title") String title)
 	    throws IOException {
 	ModelAndView mav = new ModelAndView();
+	auth = SecurityContextHolder.getContext().getAuthentication();
 	String fileName = documentService.getDocFileName(title);
 	if (fileName == null)
 	    fileName = "home";
@@ -226,6 +235,7 @@ public class DocumentationController {
 	if (fileName == null)
 	    fileName = "home";
 	System.out.println("Title: " + title + " File Name: " + fileName);
+	TableOfContents toc = documentService.getTableOfContentsOnTitle(title);
 
 	try (BufferedWriter bWriter = new BufferedWriter(new FileWriter(filePath + "/" + fileName + ".md"))) {
 	    bWriter.write(markdownText);
@@ -233,6 +243,10 @@ public class DocumentationController {
 
 	    e.printStackTrace();
 	}
+	toc.setEdited_by(auth.getName());
+	toc.setEdited_dtm(Calendar.getInstance().getTime());
+	documentService.setTableOfContents(toc);
+
 	mav.addObject("title", title);
 	mav.addObject("successMessage", " Doc Edited successfully!!!");
 	mav.setView(new RedirectView("../admin/home"));

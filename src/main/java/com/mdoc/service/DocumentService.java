@@ -60,4 +60,9 @@ public class DocumentService {
 	return pegdown.markdownToHtml(markdownText);
     }
 
+    public TableOfContents getTableOfContentsOnTitle(String title) {
+
+	return documentRepository.findByTitle(title);
+    }
+
 }
