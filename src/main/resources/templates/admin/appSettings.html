@@ -42,12 +42,15 @@
 				<form autocomplete="off" th:action="@{/admin/app-settings}" method="post" >
 					
 					<div >
-						Doc-App Name : <input type="text" class="form-control" id="doc-app-name" name="doc-app-name" placeholder="Example : Docs-App"/>
+						Doc-App Name : <input type="text" class="form-control" id="doc-app-name" name="doc-app-name" th:text="${appName}"/>
 					</div>
 					<div >
-						CopyRight : <input type="text" class="form-control" id="copy-right" name="copy-right" placeholder="your copyright message"/> 
+						CopyRight : <input type="text" class="form-control" id="copy-right" name="copy-right" th:utext="${copyRight}"/> 
 						
 					</div>
+					<!-- <div>
+						Icon : <input type="file" class="form-control" id="favicon" name="favicon" placeholder="Select icon" />
+					</div> -->
 					<div >
 						<button type="button" onclick="validateAndSave()" class="btn btn-primary btn-block">Save</button><br>
 						<a th:href="@{/admin/home}"><button type="button" class="btn btn-danger btn-block">Cancel</button></a>
