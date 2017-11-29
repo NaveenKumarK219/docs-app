@@ -11,7 +11,7 @@
     <!-- GOOGLE FONTS-->
    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
   
-  <link rel="shortcut icon" th:href="@{/img/favicon.ico}">
+  <link rel="shortcut icon" th:href="@{/img/favicon.png}">
 
   <link rel="stylesheet" th:href="@{/css/theme.css}" type="text/css" />
 </head>
@@ -42,10 +42,10 @@
 				<form autocomplete="off" th:action="@{/admin/app-settings}" method="post" >
 					
 					<div >
-						Doc-App Name : <input type="text" class="form-control" id="doc-app-name" name="doc-app-name" th:text="${appName}"/>
+						Doc-App Name : <input type="text" class="form-control" id="doc-app-name" name="doc-app-name" th:value="${appName}"/>
 					</div>
 					<div >
-						CopyRight : <input type="text" class="form-control" id="copy-right" name="copy-right" th:utext="${copyRight}"/> 
+						CopyRight : <input type="text" class="form-control" id="copy-right" name="copy-right" th:value="${copyRight}"/> 
 						
 					</div>
 					<!-- <div>
