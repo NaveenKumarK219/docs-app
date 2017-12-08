@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head>
+<title>Manage Docs</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" />
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/css/font-awesome.min.css}" type="text/css"/>
+<script	th:src="@{/js/jquery-2.2.0.min.js}"></script>
+<script	th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/bootbox.min.js}"></script>
+
+    <!-- GOOGLE FONTS-->
+   <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+  
+  <link rel="shortcut icon" th:href="@{/img/favicon.png}">
+
+  <link rel="stylesheet" th:href="@{/css/theme.css}" type="text/css" />
+</head>
+
+<body>
+    <div id="wrapper">
+         <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="adjust-nav">
+                <div class="navbar-header">
+                    <a class="navbar-brand" th:href="@{/admin/home}" th:text="${appName}">Docs App</a>
+                </div>
+                <a th:href="@{/logout}"><button style="float: right;" class="btn-danger btn-lg" type="button">LogOut</button></a>
+                <div class="navbar-brand" sec:authorize="isAuthenticated()" style="float: right;">		
+		            <span>Logged-in User: </span>
+		            <span sec:authentication="name"></span> |					
+		            Role: <span sec:authentication="principal.authorities"></span>				
+       		 	</div>
+       		 	
+            </div>
+        </div>
+        <!-- /. NAV TOP  -->
+
+        <div id="page-wrapper" >
+            <div id="page-inner" >
+                <div style="padding-top: 75px;">
+                </div>
+                <h2>Manage Documents</h2>
+                <div class="alert alert-info" th:if="${(param.successMessage != null)}">
+					<span th:text="${param.successMessage[0]}"></span>
+                </div>
+                <table class="table table-striped table-bordered table-hover table-responsive">
+                	<tr>
+                		<th>S.No</th>
+                		<th>Doc Title</th>
+                		<th>Author</th>
+                		<th>Authored Date</th>
+                		<th>Last Edit By</th>
+                		<th>Last Edit Date</th>
+                		<th>Action</th>
+                	</tr>
+                	
+                	<tr th:each="toc,iterStat : ${tocList}">
+	                	<td th:text="${iterStat.count}"></td>
+	                	<td th:text="${toc.title}"></td>
+	                	<td th:text="${toc.author}"></td>
+	                	<td th:text="${toc.created_dtm != null ? #dates.format(toc.created_dtm,'dd MMM yyyy HH:mm a') : toc.created_dtm}"></td>
+	                	<td th:text="${toc.edited_by}"></td>
+	                	<td th:text="${toc.edited_dtm != null ? #dates.format(toc.edited_dtm,'dd MMM yyyy HH:mm a') : toc.edited_dtm}"></td>
+	                	<td>
+	                		<!-- <a th:href="@{/admin/manage-docs/edit/{title}(title=${toc.title})}"><i class="fa fa-edit" title="EDIT"></i></a> -->
+	                		<a th:href="@{/admin/manage-docs/hide/{title}(title=${toc.title})}" th:if="${toc.active==true}"><i class="fa fa-ban" title="Hide Doc"></i></a>
+	                		<a th:href="@{/admin/manage-docs/show/{title}(title=${toc.title})}" th:if="${toc.active==false}"><i class="fa fa-unlock" title="Show Doc"></i></a>
+	                		
+	                	</td>
+                	</tr>
+                </table>
+            </div>
+             <!-- /. PAGE INNER  -->
+        </div>
+         <!-- /. PAGE WRAPPER  -->
+        </div>
+    <div class="footer" style="position: absolute;bottom: 0;">
+      
+    
+            <div class="row">
+                <div class="col-lg-12 alert" >
+                    <p th:utext="${copyRight}"> &copy; 2017 - Docs App.</p>
+                </div>
+            </div>
+    </div>
+
+</body>
+</html>
