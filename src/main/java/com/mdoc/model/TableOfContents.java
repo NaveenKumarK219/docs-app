@@ -36,6 +36,9 @@ public class TableOfContents {
     @Column(name = "edited_dtm")
     private Date edited_dtm;
 
+    @Column(name="active")
+    private Boolean active;
+
     public void setId(int id) {
 	this.id = id;
     }
@@ -90,5 +93,13 @@ public class TableOfContents {
 
     public void setEdited_dtm(Date edited_dtm) {
 	this.edited_dtm = edited_dtm;
+    }
+
+    public Boolean getActive() {
+	return active;
+    }
+
+    public void setActive(Boolean active) {
+	this.active = active;
     }
 }

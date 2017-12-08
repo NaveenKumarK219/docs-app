@@ -84,7 +84,7 @@ width: 30%;
                   <div class="icon-row col-lg-2 col-md-2 col-sm-2 col-xs-6">
                       <div class="div-square">
                       	<a th:href="@{/admin/newDoc}" >
- 							<i class="fa fa-book fa-5x"></i>
+ 							<i class="fa fa-file-text fa-5x"></i>
                       		<h4>Add New Doc</h4>
                       	</a>
                       </div>
@@ -135,6 +135,16 @@ width: 30%;
               </div>   
                  <!-- /. ROW  -->  
 
+			<div class="text-center pad-top" sec:authorize="hasAuthority('ADMIN')">
+				<div class="icon-row col-lg-2 col-md-2 col-sm-2 col-xs-6">
+					<div class="div-square">
+						<a th:href="@{/admin/manage-docs}">
+							<i class="fa fa-book fa-5x"></i>
+							<h4>Manage Docs</h4>
+						</a>
+					</div>
+				</div>
+			</div>
     </div>
              <!-- /. PAGE INNER  -->
             </div>

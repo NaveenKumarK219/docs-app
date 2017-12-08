@@ -28,8 +28,8 @@ public class DocumentService {
 	/*if (title == null || title.equals("")) {
 	    return documentRepository.getTableOfContents("Home");
 	}*/
-	// return documentRepository.getTableOfContents();
-    	return documentRepository.findAllByOrderById();
+	return documentRepository.getTableOfContents();
+	// return documentRepository.findAllByOrderById();
     }
     
     public String getDocFileName(String title) {
@@ -63,6 +63,10 @@ public class DocumentService {
     public TableOfContents getTableOfContentsOnTitle(String title) {
 
 	return documentRepository.findByTitle(title);
+    }
+
+    public void saveTableOfContents(TableOfContents toc) {
+	documentRepository.save(toc);
     }
 
 }

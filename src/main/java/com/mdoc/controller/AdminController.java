@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.mdoc.model.TableOfContents;
 import com.mdoc.model.User;
+import com.mdoc.repository.DocumentRepository;
+import com.mdoc.service.DocumentService;
 import com.mdoc.service.UserService;
 import com.mdoc.utility.Utilities;
 
@@ -27,6 +30,11 @@ public class AdminController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    DocumentService documentService;
+    @Autowired
+    DocumentRepository documentRepository;
 
     Properties properties = new Utilities().loadProperties();
 
@@ -146,6 +154,35 @@ public class AdminController {
 	properties = new Utilities().loadProperties();
 	mav.addObject("successMessage", "App settings applied successfully!!");
 	mav.setView(new RedirectView("../admin/home"));
+	return mav;
+    }
+
+    @RequestMapping(value = "/admin/manage-docs", method = RequestMethod.GET)
+    public ModelAndView getAllDocs(ModelAndView mav) {
+	// ModelAndView mav = new ModelAndView();
+	List<TableOfContents> tocList = documentRepository.findAllByOrderById();
+	mav.addObject("tocList", tocList);
+	mav.addObject("appName", properties.getProperty("appName"));
+	mav.addObject("copyRight", properties.getProperty("copyRight"));
+	mav.setViewName("/admin/docsListView");
+
+	return mav;
+    }
+
+    @RequestMapping(value = "/admin/manage-docs/{action}/{title}", method = RequestMethod.GET)
+    public ModelAndView manageDocs(ModelAndView mav, @PathVariable("action") String action,
+	    @PathVariable("title") String title) {
+	TableOfContents toc = documentService.getTableOfContentsOnTitle(title);
+	if (action.equals("hide")) {
+	    toc.setActive(false);
+	    documentService.saveTableOfContents(toc);
+	    mav.addObject("successMessage", title + " doc is now hidden in app menu!");
+	} else if (action.equals("show")) {
+	    toc.setActive(true);
+	    documentService.saveTableOfContents(toc);
+	    mav.addObject("successMessage", title + " is visible in the app menu now!");
+	}
+	mav.setView(new RedirectView("/docs-app/admin/manage-docs"));
 	return mav;
     }
 }

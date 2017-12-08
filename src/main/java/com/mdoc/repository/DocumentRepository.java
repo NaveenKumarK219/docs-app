@@ -12,7 +12,7 @@ import com.mdoc.model.TableOfContents;
 @Repository("documentRepository")
 public interface DocumentRepository extends JpaRepository<TableOfContents, Serializable> {
     
-    @Query(value = "select * from table_of_contents order by id", nativeQuery = true)
+    @Query(value = "select * from table_of_contents where active=true order by id", nativeQuery = true)
     public List<TableOfContents> getTableOfContents();
 
     @Query(value = "select file_name from table_of_contents where title=?", nativeQuery = true)
