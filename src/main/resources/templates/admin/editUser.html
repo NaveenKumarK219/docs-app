@@ -47,20 +47,20 @@
 					<input type="hidden" th:field="*{id}" >
 					
 					<div >
-						First Name : <input type="text" th:field="*{name}" class="form-control" />
+						<b>First Name :</b> <input type="text" th:field="*{name}" class="form-control" />
 						<label th:if="${(param.errorField != null) and (param.errorField[0] eq 'name')}" th:text="${param.errorMessage[0]}" class="validation-message"></label> 
 					</div>
 
 					<div >
-						Last Name : <input type="text" th:field="*{lastName}" class="form-control" />
+						<b>Last Name :</b> <input type="text" th:field="*{lastName}" class="form-control" />
 						<label	th:if="${(param.errorField != null) and (param.errorField[0] eq 'lastName')}" th:text="${param.errorMessage[0]}" class="validation-message"></label> 
 					</div>
 					<div >
-						E-mail : <input type="text" th:field="*{email}" class="form-control" /> 
+						<b>E-mail :</b> <input type="text" th:field="*{email}" class="form-control" /> 
 						<label th:if="${(param.errorField != null) and (param.errorField[0] eq 'email')}" th:text="${param.errorMessage[0]}" class="validation-message"></label>
 					</div>
 					<div >
-						Password : <input type="password" th:field="*{password}" class="form-control" /> 
+						<b>Password :</b> <input type="password" th:field="*{password}" class="form-control" /> 
 						<label th:if="${(param.errorField != null) and (param.errorField[0] eq 'password')}" th:text="${param.errorMessage[0]}" class="validation-message"></label>
 					</div>
 					<div >

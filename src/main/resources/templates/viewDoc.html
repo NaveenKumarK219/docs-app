@@ -60,7 +60,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a th:href="@{/}">Docs App</a>
+        <a th:href="@{/}" th:text="${appName}">Docs App</a>
       </nav>
 
       
@@ -77,8 +77,14 @@
               
             </div>
             <div class="section" sec:authorize="isAuthenticated()" th:unless="(${title} eq 'Home') or (${title} eq 'Get Started') ">
-            	<p th:unless="${toc.author == null}"><b>Author :</b> <span th:utext="${toc.author}"></span>    <b>Created on :</b> <span th:utext="${toc.created_dtm}"></span></p>
-            	<p th:unless="${toc.edited_by == null}"><b>Edited by :</b> <span th:utext="${toc.edited_by}"></span>   <b>on</b> <span th:utext="${toc.edited_dtm}"></span></p>
+            	<p th:unless="${toc.author == null}">
+            		<b>Author :</b> <span th:utext="${toc.author}"></span>    
+            		<b style="padding-left: 10px;">Created on :</b> <span th:utext="${toc.created_dtm != null ? #dates.format(toc.created_dtm,'dd MMM yyyy HH:mm a') : toc.created_dtm}"></span>
+            	</p>
+            	<p th:unless="${toc.edited_by == null}">
+            		<b>Edited by :</b> <span th:utext="${toc.edited_by}"></span>   
+            		<b style="padding-left: 5px;">on</b> <span th:utext="${toc.edited_dtm != null ? #dates.format(toc.edited_dtm,'dd MMM yyyy HH:mm a') : toc.edited_dtm}"></span>
+            	</p>
             </div>
           </div>
           <footer>
