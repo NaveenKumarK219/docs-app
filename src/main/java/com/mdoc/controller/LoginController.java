@@ -43,8 +43,8 @@ public class LoginController {
      * @return
      */
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public ModelAndView login(HttpServletRequest request) {
-	ModelAndView mav = new ModelAndView();
+    public ModelAndView login(ModelAndView mav, HttpServletRequest request) {
+
 	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	properties = new Utilities().loadProperties();
 	User user = userService.findUserByEmail(auth.getName());
@@ -67,8 +67,8 @@ public class LoginController {
      * @return ModelAndView
      */
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
-    public ModelAndView registration() {
-	ModelAndView mav = new ModelAndView();
+    public ModelAndView registration(ModelAndView mav) {
+
 	User user = new User();
 	mav.addObject("user", user);
 	mav.addObject("appName", properties.getProperty("appName"));
@@ -85,8 +85,8 @@ public class LoginController {
      * @return ModelAndView
      */
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public ModelAndView createNewUser(@Valid User user, BindingResult bindResult) {
-	ModelAndView mav = new ModelAndView();
+    public ModelAndView createNewUser(ModelAndView mav, @Valid User user, BindingResult bindResult) {
+
 	User userExists = userService.findUserByEmail(user.getEmail());
 
 	if (userExists != null) {
@@ -112,8 +112,8 @@ public class LoginController {
      * @return ModelAndView
      */
     @RequestMapping(value = "/admin/home", method = RequestMethod.GET)
-    public ModelAndView home(HttpServletRequest request) {
-	ModelAndView mav = new ModelAndView();
+    public ModelAndView home(ModelAndView mav, HttpServletRequest request) {
+
 	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	properties = new Utilities().loadProperties();
 	User user = userService.findUserByEmail(auth.getName());

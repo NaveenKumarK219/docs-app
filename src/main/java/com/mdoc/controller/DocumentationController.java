@@ -54,9 +54,8 @@ public class DocumentationController {
      * @throws IOException
      */
     @RequestMapping(value = { "/docs", "/" }, method = RequestMethod.GET)
-    public ModelAndView home(HttpSession session) throws IOException {
+    public ModelAndView home(ModelAndView mav, HttpSession session) throws IOException {
 
-	ModelAndView mav = new ModelAndView();
 	File directory = new File(filePath);
 	if (!directory.exists()) {
 	    directory.mkdir();
@@ -98,8 +97,9 @@ public class DocumentationController {
      * @throws IOException
      */
     @RequestMapping(value = "/docs/{title}", method = RequestMethod.GET)
-    public ModelAndView viewDocument(@PathVariable String title, HttpSession session) throws IOException {
-	ModelAndView mav = new ModelAndView();
+    public ModelAndView viewDocument(ModelAndView mav, @PathVariable String title, HttpSession session)
+	    throws IOException {
+
 	auth = SecurityContextHolder.getContext().getAuthentication();
 	String userName = null;
 	if (auth != null) {
@@ -129,8 +129,8 @@ public class DocumentationController {
      * @throws IOException
      */
     @RequestMapping(value = "/admin/newDoc")
-    public ModelAndView newDocument() throws IOException {
-	ModelAndView mav = new ModelAndView();
+    public ModelAndView newDocument(ModelAndView mav) throws IOException {
+
 	auth = SecurityContextHolder.getContext().getAuthentication();
 	mav.addObject("appName", properties.getProperty("appName"));
 	mav.addObject("copyRight", properties.getProperty("copyRight"));
@@ -184,9 +184,9 @@ public class DocumentationController {
      * @throws IOException
      */
     @RequestMapping(value = "/admin/editDoc/{title}", method = RequestMethod.GET)
-    public ModelAndView editDocument(HttpSession session, @PathVariable("title") String title)
+    public ModelAndView editDocument(ModelAndView mav, HttpSession session, @PathVariable("title") String title)
 	    throws IOException {
-	ModelAndView mav = new ModelAndView();
+
 	auth = SecurityContextHolder.getContext().getAuthentication();
 	String fileName = documentService.getDocFileName(title);
 	if (fileName == null)
@@ -226,9 +226,9 @@ public class DocumentationController {
      * @throws IOException
      */
     @RequestMapping(value = "/admin/saveDoc", method = RequestMethod.POST)
-    public ModelAndView saveDocument(HttpSession session, @RequestParam("title") String title,
+    public ModelAndView saveDocument(ModelAndView mav, HttpSession session, @RequestParam("title") String title,
 	    @RequestParam("markdownText") String markdownText) throws IOException {
-	ModelAndView mav = new ModelAndView();
+
 	File file = new File(filePath + "/home.md");
 	file.createNewFile();
 	String fileName = documentService.getDocFileName(title);

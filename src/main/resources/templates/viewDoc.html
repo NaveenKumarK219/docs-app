@@ -76,7 +76,7 @@
             <div class="section" th:utext="${markdownHtml}">
               
             </div>
-            <div class="section" sec:authorize="isAuthenticated()" th:unless="(${title} eq 'Home') or (${title} eq 'Get Started') ">
+            <!-- <div class="section" sec:authorize="isAuthenticated()" th:unless="(${title} eq 'Home') or (${title} eq 'Get Started') ">
             	<p th:unless="${toc.author == null}">
             		<b>Author :</b> <span th:utext="${toc.author}"></span>    
             		<b style="padding-left: 10px;">Created on :</b> <span th:utext="${toc.created_dtm != null ? #dates.format(toc.created_dtm,'dd MMM yyyy HH:mm a') : toc.created_dtm}"></span>
@@ -85,7 +85,7 @@
             		<b>Edited by :</b> <span th:utext="${toc.edited_by}"></span>   
             		<b style="padding-left: 5px;">on</b> <span th:utext="${toc.edited_dtm != null ? #dates.format(toc.edited_dtm,'dd MMM yyyy HH:mm a') : toc.edited_dtm}"></span>
             	</p>
-            </div>
+            </div> -->
           </div>
           <footer>
           <hr/>
@@ -101,6 +101,21 @@
     </section>
 
   </div>
+  
+  <div class="rst-versions" role="note" style="cursor: pointer;" sec:authorize="isAuthenticated()">
+    <span class="rst-current-version" data-toggle="rst-current-version" th:unless="(${title} eq 'Home') or (${title} eq 'Get Started') " style="text-align:left;">
+      
+      	<span th:unless="${toc.author == null}">
+      		<b>Author :</b> <span th:utext="${toc.author}"></span><br>
+			<b>Created on :</b> <span th:utext="${toc.created_dtm != null ? #dates.format(toc.created_dtm,'dd MMM yyyy HH:mm a') : toc.created_dtm}"></span>
+      	</span><br>
+      	<span th:unless="${toc.edited_by == null}">
+      		<b>Edited by :</b> <span th:utext="${toc.edited_by}"></span><br> 
+			<b>on</b> <span th:utext="${toc.edited_dtm != null ? #dates.format(toc.edited_dtm,'dd MMM yyyy HH:mm a') : toc.edited_dtm}"></span>
+      	</span>
+      
+    </span>
+</div>
  
 </body>
 </html>

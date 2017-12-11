@@ -39,8 +39,8 @@ public class AdminController {
     Properties properties = new Utilities().loadProperties();
 
     @RequestMapping(value = "/admin/change-password", method = RequestMethod.GET)
-    public ModelAndView changePasswordForm() {
-	ModelAndView mav = new ModelAndView();
+    public ModelAndView changePasswordForm(ModelAndView mav) {
+
 	mav.addObject("appName", properties.getProperty("appName"));
 	mav.addObject("copyRight", properties.getProperty("copyRight"));
 	mav.setViewName("/admin/changePassword");
@@ -68,8 +68,8 @@ public class AdminController {
     }
     
     @RequestMapping(value="/admin/manage-users",method=RequestMethod.GET)
-    public ModelAndView showManageUsers() {
-	ModelAndView mav = new ModelAndView();
+    public ModelAndView showManageUsers(ModelAndView mav) {
+
 	List<User> userList = userService.getUsers();
 	mav.addObject("users", userList);
 	mav.addObject("appName", properties.getProperty("appName"));
@@ -79,8 +79,9 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/admin/manage-users/{action}/{id}", method = RequestMethod.GET)
-    public ModelAndView manageUsers(@PathVariable("action") String action, @PathVariable("id") int id) {
-	ModelAndView mav = new ModelAndView();
+    public ModelAndView manageUsers(ModelAndView mav, @PathVariable("action") String action,
+	    @PathVariable("id") int id) {
+
 	User user = null;
 	if (action.equals("edit")) {
 	    user = userService.getUserById(id);
@@ -106,8 +107,8 @@ public class AdminController {
     }
     
     @RequestMapping(value = "/admin/manage-users/save-user-edit", method = RequestMethod.POST)
-    public ModelAndView saveUserEdit(@Valid User user, BindingResult bindResult) {
-	ModelAndView mav = new ModelAndView();
+    public ModelAndView saveUserEdit(ModelAndView mav, @Valid User user, BindingResult bindResult) {
+
 	User userExists = userService.findUserByEmail(user.getEmail());
 	User updateUser = userService.getUserById(user.getId());
 
@@ -134,8 +135,8 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/admin/app-settings", method = RequestMethod.GET)
-    public ModelAndView appSettings() {
-	ModelAndView mav = new ModelAndView();
+    public ModelAndView appSettings(ModelAndView mav) {
+
 	mav.addObject("appName", properties.getProperty("appName"));
 	mav.addObject("copyRight", properties.getProperty("copyRight"));
 	mav.setViewName("/admin/appSettings");
