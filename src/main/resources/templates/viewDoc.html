@@ -102,8 +102,8 @@
 
   </div>
   
-  <div class="rst-versions" role="note" style="cursor: pointer;" sec:authorize="isAuthenticated()">
-    <span class="rst-current-version" data-toggle="rst-current-version" th:unless="(${title} eq 'Home') or (${title} eq 'Get Started') " style="text-align:left;">
+  <div class="rst-versions" role="note" sec:authorize="isAuthenticated()">
+    <span class="rst-current-version" data-toggle="rst-current-version" th:unless="(${title} eq 'Home') or (${title} eq 'Get Started') " style="text-align:left;cursor: text;">
       
       	<span th:unless="${toc.author == null}">
       		<b>Author :</b> <span th:utext="${toc.author}"></span><br>

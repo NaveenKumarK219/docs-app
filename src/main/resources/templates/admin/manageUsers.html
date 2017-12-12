@@ -4,6 +4,8 @@
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 
 <head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Manage Users</title>
 <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" />
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
@@ -22,7 +24,7 @@
 
 <body>
     <div id="wrapper">
-         <div class="navbar navbar-inverse navbar-fixed-top">
+         <div class="navbar navbar-inverse">
             <div class="adjust-nav">
                 <div class="navbar-header">
                     <a class="navbar-brand" th:href="@{/admin/home}" th:text="${appName}">Docs App</a>
@@ -40,8 +42,7 @@
 
         <div id="page-wrapper" >
             <div id="page-inner" >
-                <div style="padding-top: 75px;">
-                </div>
+                
                 <h2>Manage Users</h2>
                 <div class="alert alert-info" th:if="${(param.successMessage != null)}">
 					<span th:text="${param.successMessage[0]}"></span>
