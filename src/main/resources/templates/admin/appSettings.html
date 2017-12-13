@@ -1,77 +1,104 @@
-<!DOCTYPE html>
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE HTML>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>App Settings</title>
-<link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" />
-<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
-<script	th:src="@{/js/jquery-2.2.0.min.js}"></script>
-<script	th:src="@{/js/bootstrap.min.js}"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- Bootstrap Core CSS -->
+<link th:href="@{/css/bootstrap.min.css}" rel='stylesheet' type='text/css' />
+<!-- Custom CSS -->
+<link th:href="@{/css/style.css}" rel='stylesheet' type='text/css' />
+<link rel="stylesheet" th:href="@{/css/morris.css}" type="text/css"/>
+<!-- Graph CSS -->
+<link th:href="@{/css/font-awesome.css}" rel="stylesheet"> 
+<!-- jQuery -->
+<script th:src="@{/js/jquery-2.2.0.min.js}"></script>
+<!-- //jQuery -->
+<link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css'/>
+<link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+<!-- lined-icons -->
+<link rel="stylesheet" th:href="@{/css/icon-font.min.css}" type='text/css' />
+<!-- //lined-icons -->
+<link rel="shortcut icon" th:href="@{/img/favicon.png}">
 <script th:src="@{/js/bootbox.min.js}"></script>
-
-    <!-- GOOGLE FONTS-->
-   <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
-  
-  <link rel="shortcut icon" th:href="@{/img/favicon.png}">
-
-  <link rel="stylesheet" th:href="@{/css/theme.css}" type="text/css" />
-</head>
+</head> 
 <body>
-	<div id="wrapper">
-         <div class="navbar navbar-inverse">
-            <div class="adjust-nav">
-                <div class="navbar-header">
-                    <a class="navbar-brand" th:href="@{/admin/home}" th:text="${appName}">Docs App</a>
-                </div>
-                <a th:href="@{/logout}"><button style="float: right;" class="btn-danger btn-lg" type="button">LogOut</button></a>
-                <div class="navbar-brand" sec:authorize="isAuthenticated()" style="float: right;">		
-		            <span>Logged-in User: </span>
-		            <span sec:authentication="name"></span> |					
-		            Role: <span sec:authentication="principal.authorities"></span>				
-       		 	</div>
-       		 	
-            </div>
-        </div>
-        <!-- /. NAV TOP  -->
-
-        <div id="page-wrapper" >
-            <div id="page-inner" >
-            
-                <h2>App Settings </h2>
-                <div class="form">
-				<form autocomplete="off" th:action="@{/admin/app-settings}" method="post" >
-					
-					<div >
-						<b>Doc-App Name :</b> <input type="text" class="form-control" id="doc-app-name" name="doc-app-name" th:value="${appName}"/>
+<div class="page-container">
+   <!--/content-inner-->
+	<div class="left-content">
+	   <div class="mother-grid-inner">
+             <!--header start here-->
+				<div class="header-main">
+					<div class="" style="float:left;">
+								<h2><a th:href="@{/admin/home}" th:text="${appName}">Docs App</a></h2>
 					</div>
-					<div >
-						<b>CopyRight :</b> <input type="text" class="form-control" id="copy-right" name="copy-right" th:value="${copyRight}"/> 
+					<div class="profile_details w3l" style="float:right;">		
+						<ul>
+							<li class="dropdown profile_details_drop">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+									<div class="profile_img">	
+										<span class="prfil-img"><img th:src="@{/img/profile.jpg}" alt=""> </span> 
+										<div class="user-name">
+											<p sec:authentication="name"></p>
+											<span sec:authentication="principal.authorities"></span>
+										</div>
+										<i class="fa fa-angle-down"></i>
+										<i class="fa fa-angle-up"></i>
+										<div class="clearfix"></div>	
+									</div>	
+								</a>
+								<ul class="dropdown-menu drp-mnu">
+									<!-- <li> <a th:href="@{/admin/change-password}"><i class="fa fa-key"></i> Change Password</a> </li> --> 
+									<li> <a href="#"><i class="fa fa-user"></i> Profile</a> </li> 
+									<li> <a th:href="@{/logout}"><i class="fa fa-sign-out"></i> Logout</a> </li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+							
+				     <div class="clearfix"> </div>	
+				</div>
+<!--heder end here-->
+		<ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/admin/home}">Home</a> <i class="fa fa-angle-right"></i> App Settings</li>
+        </ol>
+        
+        <div class="grid-form1">
+            <h3>App Settings</h3>
+            <div class="tab-content tab-pane active" id="horizontal-form">
+                
+                <form class="form-horizontal" th:action="@{/admin/app-settings}" method="post">
+                	<div class="form-group">
+						<label class="col-sm-4 control-label">Doc-App Name :</label> 
+						<div class="col-sm-6">
+							<input type="text" class="form-control1" id="doc-app-name" name="doc-app-name" th:value="${appName}"/>
+						</div>
 						
 					</div>
-					<!-- <div>
-						Icon : <input type="file" class="form-control" id="favicon" name="favicon" placeholder="Select icon" />
-					</div> -->
-					<div >
-						<button type="button" onclick="validateAndSave()" class="btn btn-primary btn-block">Save</button><br>
-						<a th:href="@{/admin/home}"><button type="button" class="btn btn-danger btn-block">Cancel</button></a>
+					<div class="form-group">
+						<label class="col-sm-4 control-label">CopyRight :</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control1" id="copy-right" name="copy-right" th:value="${copyRight}"/>
+						</div> 
+						 
+						
 					</div>
-				</form>
-			</div>
+					<div class="row col-sm-8 col-sm-offset-4">
+						<button type="button" onclick="validateAndSave()" class="btn btn-primary col-sm-2">Save</button>
+						<a th:href="@{/admin/home}"><button type="button" class="btn btn-default col-sm-2">Cancel</button></a>
+					</div>
+                </form>              
+                
             </div>
-             <!-- /. PAGE INNER  -->
-        </div>
-         <!-- /. PAGE WRAPPER  -->
-        </div>
-    <div class="footer" style="position: absolute;bottom: 0;">
-      
-    
-            <div class="row">
-                <div class="col-lg-12 alert" >
-                    <p th:utext="${copyRight}"> &copy; 2017 - Docs App.</p>
-                </div>
-            </div>
-    </div>
+
 <script type="text/javascript">
 	function validateAndSave(){
 		var  docName = document.getElementById("doc-app-name").value;
@@ -98,5 +125,90 @@
 		document.forms[0].submit();
 	}
 </script>
+
+<!-- script-for sticky-nav -->
+		<script>
+		$(document).ready(function() {
+			 var navoffeset=$(".header-main").offset().top;
+			 $(window).scroll(function(){
+				var scrollpos=$(window).scrollTop(); 
+				if(scrollpos >=navoffeset){
+					$(".header-main").addClass("fixed");
+				}else{
+					$(".header-main").removeClass("fixed");
+				}
+			 });
+			 
+		});
+		</script>
+		<!-- /script-for sticky-nav -->
+<!--inner block start here-->
+<div class="inner-block">
+
+</div>
+<!--inner block end here-->
+<!--copy rights start here-->
+<div class="copyrights">
+	 <p th:utext="${copyRight}">&copy; 2017 Docs App. All Rights Reserved </p>
+</div>	
+<!--COPY rights end here-->
+</div>
+</div>
+  <!--//content-inner-->
+			<!--/sidebar-menu-->
+				<div class="sidebar-menu">
+					<header class="logo1">
+						<a href="#" class="sidebar-icon"> <span class="fa fa-bars"></span> </a> 
+					</header>
+						<div style="border-top:1px ridge rgba(255, 255, 255, 0.15)"></div>
+                           <div class="menu">
+									<ul id="menu" >
+										<li><a th:href="@{/}"><i class="fa fa-home"></i> <span>Home</span><div class="clearfix"></div></a></li>
+										
+										<li><a th:href="@{/admin/newDoc}"><i class="fa fa-file-text"></i><span>Create New Doc</span><div class="clearfix"></div></a></li>
+										
+										<li><a th:href="@{/admin/manage-users}"><i class="fa fa-users"></i> <span>Manage Users</span><div class="clearfix"></div></a></li>
+										
+										<li><a th:href="@{/registration}"><i class="fa fa-user"></i> <span>Register User</span><div class="clearfix"></div></a></li>
+										
+										<li><a th:href="@{/admin/manage-docs}"><i class="fa fa-book"></i> <span>Manage Docs</span><div class="clearfix"></div></a></li>
+										
+										<li><a th:href="@{/admin/app-settings}"><i class="fa fa-gear"></i> <span>App Settings</span><div class="clearfix"></div></a></li>
+										
+										<li><a th:href="@{/admin/change-password}"><i class="fa fa-key"></i> <span>Change Password</span><div class="clearfix"></div></a></li>
+										
+								  	</ul>
+							</div>
+				</div>
+				<div class="clearfix"></div>		
+</div>
+<script>
+var toggle = true;
+			
+$(".sidebar-icon").click(function() {                
+  if (toggle)
+  {
+	$(".page-container").addClass("sidebar-collapsed").removeClass("sidebar-collapsed-back");
+	$("#menu span").css({"position":"absolute"});
+  }
+  else
+  {
+	$(".page-container").removeClass("sidebar-collapsed").addClass("sidebar-collapsed-back");
+	setTimeout(function() {
+	  $("#menu span").css({"position":"relative"});
+	}, 400);
+  }
+				
+				toggle = !toggle;
+			});
+</script>
+
+<!--js -->
+<script th:src="@{/js/jquery.nicescroll.js}"></script>
+<script th:src="@{/js/scripts.js}"></script>
+<!-- Bootstrap Core JavaScript -->
+   <script th:src="@{/js/bootstrap.min.js}"></script>
+   <!-- /Bootstrap Core JavaScript -->	   
+
 </body>
 </html>

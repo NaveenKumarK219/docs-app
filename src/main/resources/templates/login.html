@@ -1,40 +1,68 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
-
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE HTML>
+<html>
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Docs App</title>
-	<link rel="stylesheet" type="text/css" th:href="@{/css/login.css}" />
-<!--<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"> -->
-	<script	th:src="@{/js/jquery-2.2.0.min.js}"></script>
-	<script	th:src="@{/js/bootstrap.min.js}"></script>
-  	<link rel="shortcut icon" th:href="@{/img/favicon.png}">
-  	
-</head>
-
-<body>	
-	<div class="login-page">
-	  <div class="form">
-	  	<h2 class="form-signin-heading" th:text="${appName}">Docs App</h2>
-	  	<div align="center" th:if="${param.error}">
-			<p style="font-size: 20; color: #FF1C19;">Email or Password invalid, please verify</p>
-		</div>
-	    <!-- <form class="register-form">
-	      <input type="text" placeholder="name"/>
-	      <input type="password" placeholder="password"/>
-	      <input type="text" placeholder="email address"/>
-	      <button>create</button>
-	      <p class="message">Already registered? <a href="#">Sign In</a></p>
-	    </form> -->
-	    <form class="login-form" th:action="@{/login}" method="POST">
-	      <input type="text" id="email" name="email"  th:placeholder="Email" />
-	      <input type="password"  th:placeholder="Password" id="password" name="password" />
-	      <button type="Submit">login</button>
-	      <!-- <p class="message">Not registered? <a href="#">Create an account</a></p> -->
-	    </form>
-	  </div>
+<title th:text="${appName}">Docs App</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="documentation application, simple UI, cms application" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- Bootstrap Core CSS -->
+<link th:href="@{/css/bootstrap.min.css}" rel='stylesheet' type='text/css' />
+<!-- Custom CSS -->
+<link th:href="@{/css/style.css}" rel='stylesheet' type='text/css' />
+<link rel="stylesheet" th:href="@{/css/morris.css}" type="text/css"/>
+<!-- Graph CSS -->
+<link th:href="@{/css/font-awesome.css}" rel="stylesheet">
+<link rel="stylesheet" th:href="@{/css/jquery-ui.css}"> 
+<!-- jQuery -->
+<script th:src="@{/js/jquery-2.2.0.min.js}"></script>
+<!-- //jQuery -->
+<link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css'/>
+<link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+<!-- lined-icons -->
+<link rel="stylesheet" th:href="@{/css/icon-font.min.css}" type='text/css' />
+<!-- //lined-icons -->
+<link rel="shortcut icon" th:href="@{/img/favicon.png}">
+</head> 
+<body>
+	<div class="main-wthree">
+	<div class="container">
+	<div class="sin-w3-agile">
+		<h2 th:text="${appName}">Docs App</h2>
+		<form th:action="@{/login}" method="post">
+			<div class="username">
+				<span class="username">Username:</span>
+				<input type="text" id="email" name="email" class="name" placeholder="" required="">
+				<div class="clearfix"></div>
+			</div>
+			<div class="password-agileits">
+				<span class="username">Password:</span>
+				<input type="password" id="password" name="password" class="password" placeholder="" required="">
+				<div class="clearfix"></div>
+			</div>
+			<div class="rem-for-agile">
+				<input type="checkbox" name="remember" class="remember">Remember me<br>
+				<a href="#">Forgot Password</a><br>
+			</div>
+			<div class="login-w3">
+					<input type="submit" class="login" value="Sign In">
+			</div>
+			<div class="clearfix"></div>
+		</form>
+				<div class="back">
+					<a th:href="@{/}">Back To Home</a>
+				</div>
+				<div class="footer">
+					<p th:text="${copyRight}">&copy; 2017 Docs App . All Rights Reserved</p>
+				</div>
+	</div>
+	</div>
 	</div>
 </body>
 </html>
