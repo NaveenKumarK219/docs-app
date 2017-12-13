@@ -72,6 +72,7 @@ public class LoginController {
 	User user = new User();
 	mav.addObject("user", user);
 	mav.addObject("appName", properties.getProperty("appName"));
+	mav.addObject("copyRight", properties.getProperty("copyRight"));
 	mav.setViewName("registration");
 	return mav;
     }
@@ -94,6 +95,8 @@ public class LoginController {
 	}
 
 	if (bindResult.hasErrors()) {
+	    mav.addObject("appName", properties.getProperty("appName"));
+	    mav.addObject("copyRight", properties.getProperty("copyRight"));
 	    mav.setViewName("registration");
 	} else {
 	    userService.saveUser(user);
