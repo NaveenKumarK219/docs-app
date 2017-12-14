@@ -113,13 +113,14 @@
 					</div>
 					<label class="alert-danger col-sm-6 col-sm-offset-4" th:if="${(param.errorField != null) and (param.errorField[0] eq 'role')}" th:text="${param.errorMessage[0]}"></label>
 
-					<div class="col-sm-8 col-sm-offset-4">
+					<div class="row col-sm-offset-4">
 							<button type="submit" class="btn btn-primary">Register User</button>
 							<a th:href="@{/admin/manage-users}"><button type="button" class="btn btn-default">Cancel</button></a>
 					</div>
                 </form>              
                 
             </div>
+         </div>
 
 <!-- script-for sticky-nav -->
 		<script>
