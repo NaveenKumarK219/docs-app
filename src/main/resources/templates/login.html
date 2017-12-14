@@ -29,6 +29,9 @@
 	<div class="container">
 	<div class="sin-w3-agile">
 		<h2 th:text="${appName}">Docs App</h2>
+		<div align="center" th:if="${param.error}">
+			<p style="font-size: 20; color: #FF1C19;">Email or Password invalid, please verify</p>
+		</div>
 		<form th:action="@{/login}" method="post">
 			<div class="username">
 				<span class="username">Username:</span>

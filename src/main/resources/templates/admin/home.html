@@ -214,6 +214,16 @@
 		<ol class="breadcrumb">
             <li class="breadcrumb-item"><a th:href="@{/admin/home}">Home</a> <i class="fa fa-angle-right"></i></li>
         </ol>
+        
+        <div class="row">
+              <div class="col-lg-12 ">
+                  <div class="alert alert-info" th:if="${(param.successMessage != null)}">
+						<a th:if="${(param.title != null)}" th:href="@{/docs/{title}(title=${param.title[0]})}" th:text="${param.title[0]}"></a>
+						<span th:text="${param.successMessage[0]}"></span>
+                  </div>
+                 
+              </div>
+        </div>
 
 <!-- script-for sticky-nav -->
 		<script>
@@ -256,13 +266,13 @@
 										
 										<li><a th:href="@{/admin/newDoc}"><i class="fa fa-file-text"></i><span>Create New Doc</span><div class="clearfix"></div></a></li>
 										
-										<li><a th:href="@{/admin/manage-users}"><i class="fa fa-users"></i> <span>Manage Users</span><div class="clearfix"></div></a></li>
+										<li sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/admin/manage-users}"><i class="fa fa-users"></i> <span>Manage Users</span><div class="clearfix"></div></a></li>
 										
-										<li><a th:href="@{/registration}"><i class="fa fa-user-plus"></i> <span>Register User</span><div class="clearfix"></div></a></li>
+										<li sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/registration}"><i class="fa fa-user-plus"></i> <span>Register User</span><div class="clearfix"></div></a></li>
 										
-										<li><a th:href="@{/admin/manage-docs}"><i class="fa fa-book"></i> <span>Manage Docs</span><div class="clearfix"></div></a></li>
+										<li sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/admin/manage-docs}"><i class="fa fa-book"></i> <span>Manage Docs</span><div class="clearfix"></div></a></li>
 										
-										<li><a th:href="@{/admin/app-settings}"><i class="fa fa-gear"></i> <span>App Settings</span><div class="clearfix"></div></a></li>
+										<li sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/admin/app-settings}"><i class="fa fa-gear"></i> <span>App Settings</span><div class="clearfix"></div></a></li>
 										
 										<li><a th:href="@{/admin/change-password}"><i class="fa fa-key"></i> <span>Change Password</span><div class="clearfix"></div></a></li>
 										 

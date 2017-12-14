@@ -335,7 +335,7 @@ li#menu-academico{
 }
 .profile_details {
     float: left;
-    width: 24.25%;
+    /*width: 24.25%;*/
     background: #1b93e1;
     text-align: center;
     padding: 0.3em 1em;
