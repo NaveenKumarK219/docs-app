@@ -23,6 +23,8 @@
 <!-- //lined-icons -->
 <link rel="shortcut icon" th:href="@{/img/favicon.png}">
 <script th:src="@{/js/bootbox.min.js}"></script>
+<script th:src="@{/js/simplemde.min.js}"></script>
+<link rel="stylesheet" th:href="@{/css/simplemde.min.css}" type='text/css' />
 
 </head> 
 <body>
@@ -86,12 +88,17 @@
 					</div>
 					<div class="form-group">
 						<div>
+							<textarea class="col-sm-12" rows="20" cols="50" name="markdownText" id="markdownText" 
+								placeholder="Start entering the markdown content here...."></textarea>
+						</div>
+						
+						<!-- <div>
 							<textarea class="col-sm-6 editor" rows="20" cols="50" name="markdownText" id="markdownText" 
 								oninput="this.editor.update()" placeholder="Start entering the markdown content here...."></textarea>
 						</div>
 						<div id="preview1" class="col-sm-6 editor">
 							<div id="preview"></div>
-						</div>
+						</div> -->
 					</div>
 					
                 </form>              
@@ -185,7 +192,7 @@ $(".sidebar-icon").click(function() {
    <!-- /Bootstrap Core JavaScript -->	   
 
 <!-- Markdown editor javascript -->
-<script th:src="@{/js/marked.js}"></script>
+<!-- <script th:src="@{/js/marked.js}"></script>
 <script type="text/javascript">
 
 function Editor(input, preview) {
@@ -198,7 +205,7 @@ function Editor(input, preview) {
 var $ = function (id) { return document.getElementById(id); };
 new Editor($("markdownText"), $("preview"));
 </script>
-
+ -->
 <script type="text/javascript">
 
 function validateAndSaveDoc(){
@@ -228,5 +235,20 @@ function validateAndSaveDoc(){
 }
 </script>
 
+<!-- Markdown Editor -->
+<script type="text/javascript">
+	var simplemde = new SimpleMDE({
+		element: document.getElementById("markdownText") 
+		});
+	
+	$(document).ready(function(){
+		$(".fa-arrows-alt").click(function(){
+			$(".sidebar-menu").toggle();
+		});
+		$(".fa-columns").click(function(){
+			$(".sidebar-menu").is(":visible") ? $(".sidebar-menu").hide() : '';
+		});
+	});
+</script>
 </body>
 </html>
