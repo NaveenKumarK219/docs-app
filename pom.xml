@@ -9,7 +9,7 @@
   <version>3.0</version>
   <packaging>war</packaging>
   <name>docs-app</name>
-  <description>Documentation application</description>
+  <description>Documentation Application</description>
   
   <parent>
 	<groupId>org.springframework.boot</groupId>
@@ -69,10 +69,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
 		</dependency>
 		
 	</dependencies>
