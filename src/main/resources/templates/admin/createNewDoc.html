@@ -206,10 +206,28 @@ var $ = function (id) { return document.getElementById(id); };
 new Editor($("markdownText"), $("preview"));
 </script>
  -->
+ 
+ <!-- Markdown Editor -->
+<script type="text/javascript">
+	var simplemde = new SimpleMDE({
+		element: document.getElementById("markdownText") 
+		});
+	
+	$(document).ready(function(){
+		$(".fa-arrows-alt").click(function(){
+			$(".sidebar-menu").toggle();
+		});
+		$(".fa-columns").click(function(){
+			$(".sidebar-menu").is(":visible") ? $(".sidebar-menu").hide() : '';
+		});
+	});
+</script>
+
 <script type="text/javascript">
 
 function validateAndSaveDoc(){
 	
+	$('#markdownText').val(simplemde.value());
 	var title = document.getElementById('title').value;
 	var markdownText = document.getElementById('markdownText').value;
 	var regExp = /[a-zA-Z]/;
@@ -231,24 +249,10 @@ function validateAndSaveDoc(){
 	}
 	
 	document.forms[0].action='/docs-app/admin/addNewDoc';
+	document.forms[0].method='POST';
 	document.forms[0].submit();
 }
 </script>
 
-<!-- Markdown Editor -->
-<script type="text/javascript">
-	var simplemde = new SimpleMDE({
-		element: document.getElementById("markdownText") 
-		});
-	
-	$(document).ready(function(){
-		$(".fa-arrows-alt").click(function(){
-			$(".sidebar-menu").toggle();
-		});
-		$(".fa-columns").click(function(){
-			$(".sidebar-menu").is(":visible") ? $(".sidebar-menu").hide() : '';
-		});
-	});
-</script>
 </body>
 </html>

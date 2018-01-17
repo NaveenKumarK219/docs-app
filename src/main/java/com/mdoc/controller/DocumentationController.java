@@ -163,6 +163,7 @@ public class DocumentationController {
 	    toc.setFileName(fileName);
 	    toc.setAuthor(auth.getName());
 	    toc.setCreated_dtm(Calendar.getInstance().getTime());
+	    toc.setActive(true);
 	    documentService.setTableOfContents(toc);
 	} catch (IOException e) {
 
