@@ -108,6 +108,8 @@ public class DocumentationController {
 	List<TableOfContents> tocList = documentService.getTableOfContents();
 	TableOfContents toc = documentService.getTableOfContentsOnTitle(title);
 	String fileName = documentService.getDocFileName(title);
+	if (fileName == null)
+	    fileName = "home";
 
 	String htmlContent = documentService.markdownToHtmlConverter(fileName, filePath, session);
 	
@@ -244,10 +246,11 @@ public class DocumentationController {
 
 	    e.printStackTrace();
 	}
-	toc.setEdited_by(auth.getName());
-	toc.setEdited_dtm(Calendar.getInstance().getTime());
-	documentService.setTableOfContents(toc);
-
+	if (toc != null) {
+	    toc.setEdited_by(auth.getName());
+	    toc.setEdited_dtm(Calendar.getInstance().getTime());
+	    documentService.setTableOfContents(toc);
+	}
 	mav.addObject("title", title);
 	mav.addObject("successMessage", " Doc Edited successfully!!!");
 	mav.setView(new RedirectView("../admin/home"));

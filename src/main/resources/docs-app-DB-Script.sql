@@ -26,6 +26,11 @@ CREATE TABLE table_of_contents
 (
   id serial,
   title character varying(30) NOT NULL,
-  file_name character varying(50) NOT NULL
+  file_name character varying(50) NOT NULL,
+  author character varying(50), 
+  edited_by character varying(50), 
+  created_dtm timestamp with time zone default now(),
+  edited_dtm timestamp with time zone default now(),
+  active boolean
 );
 
