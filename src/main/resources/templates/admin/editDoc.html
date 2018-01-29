@@ -221,5 +221,13 @@ new Editor($("markdownText"), $("preview"));
 	});
 </script>
 
+<!-- For browser back controlling -->
+<script type="text/javascript">
+	window.onbeforeunload = function(){
+		return "You will lose the changes! Please use fullscreen button to toggle between the views!";
+	};
+</script>
+
+
 </body>
 </html>
