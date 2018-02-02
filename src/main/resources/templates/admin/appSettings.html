@@ -1,209 +1,80 @@
 <!DOCTYPE HTML>
 <html>
-<head>
-<title>App Settings</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
-<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-<!-- Bootstrap Core CSS -->
-<link th:href="@{/css/bootstrap.min.css}" rel='stylesheet' type='text/css' />
-<!-- Custom CSS -->
-<link th:href="@{/css/style.css}" rel='stylesheet' type='text/css' />
-<link rel="stylesheet" th:href="@{/css/morris.css}" type="text/css"/>
-<!-- Graph CSS -->
-<link th:href="@{/css/font-awesome.css}" rel="stylesheet"> 
-<!-- jQuery -->
-<script th:src="@{/js/jquery-2.2.0.min.js}"></script>
-<!-- //jQuery -->
-<link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css'/>
-<link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
-<!-- lined-icons -->
-<link rel="stylesheet" th:href="@{/css/icon-font.min.css}" type='text/css' />
-<!-- //lined-icons -->
-<link rel="shortcut icon" th:href="@{/img/favicon.png}">
-<script th:src="@{/js/bootbox.min.js}"></script>
-</head> 
+<head th:replace="fragments :: head-element"></head> 
 <body>
 <div class="page-container">
-   <!--/content-inner-->
 	<div class="left-content">
-	   <div class="mother-grid-inner">
-             <!--header start here-->
-				<div class="header-main">
-					<div class="" style="float:left;">
-								<h2><a th:href="@{/admin/home}" th:text="${appName}">Docs App</a></h2>
-					</div>
-					<div class="profile_details w3l" style="float:right;">		
-						<ul>
-							<li class="dropdown profile_details_drop">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-									<div class="profile_img">	
-										<span class="prfil-img"><img th:src="@{/img/profile.jpg}" alt=""> </span> 
-										<div class="user-name">
-											<p sec:authentication="name"></p>
-											<span sec:authentication="principal.authorities"></span>
-										</div>
-										<i class="fa fa-angle-down"></i>
-										<i class="fa fa-angle-up"></i>
-										<div class="clearfix"></div>	
-									</div>	
-								</a>
-								<ul class="dropdown-menu drp-mnu">
-									<!-- <li> <a th:href="@{/admin/change-password}"><i class="fa fa-key"></i> Change Password</a> </li> --> 
-									<li> <a href="#"><i class="fa fa-user"></i> Profile</a> </li> 
-									<li> <a th:href="@{/logout}"><i class="fa fa-sign-out"></i> Logout</a> </li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-							
-				     <div class="clearfix"> </div>	
-				</div>
-<!--heder end here-->
-		<ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/admin/home}">Home</a> <i class="fa fa-angle-right"></i> App Settings</li>
-        </ol>
-        
-        <div class="grid-form1">
-            <h3>App Settings</h3>
-            <div class="tab-content tab-pane active" id="horizontal-form">
-                
-                <form class="form-horizontal" th:action="@{/admin/app-settings}" method="post">
-                	<div class="form-group">
-						<label class="col-sm-4 control-label">Doc-App Name :</label> 
-						<div class="col-sm-6">
-							<input type="text" class="form-control1" id="doc-app-name" name="doc-app-name" th:value="${appName}"/>
-						</div>
-						
-					</div>
-					<div class="form-group">
-						<label class="col-sm-4 control-label">CopyRight :</label>
-						<div class="col-sm-6">
-							<input type="text" class="form-control1" id="copy-right" name="copy-right" th:value="${copyRight}"/>
-						</div> 
-						 
-						
-					</div>
-					<div class="row col-sm-offset-4">
-						<button type="button" onclick="validateAndSave()" class="btn btn-primary col-sm-2">Save</button>
-						<a th:href="@{/admin/home}"><button type="button" class="btn btn-default col-sm-2">Cancel</button></a>
-					</div>
-                </form>              
-                
-            </div>
-         </div>
-
-<script type="text/javascript">
-	function validateAndSave(){
-		var  docName = document.getElementById("doc-app-name").value;
-		var  copyRight = document.getElementById("copy-right").value;
-		var regExp = /[a-zA-Z]/;
-		
-		if(docName == null || docName == ''){
-			bootbox.alert("Application Name cannot be empty!!!");
-			return false;
-		} else if(!regExp.test(docName)){
-			bootbox.alert("Please enter a valid App Name!!! Try removing empty spaces!!!");
-			return false;
-		}
-		
-		if(copyRight == null || copyRight == ''){
-			bootbox.alert("Copy Right shouldn't be empty! Atleast enter a line!");
-			return false;
-		} else if(!regExp.test(copyRight)){
-			bootbox.alert("Please remove unnecessary white spaces and try again!!!");
-			return false;
-		}
-		
-		document.forms[0].action='/docs-app/admin/app-settings';
-		document.forms[0].submit();
-	}
-</script>
-
-<!-- script-for sticky-nav -->
-		<script>
-		$(document).ready(function() {
-			 var navoffeset=$(".header-main").offset().top;
-			 $(window).scroll(function(){
-				var scrollpos=$(window).scrollTop(); 
-				if(scrollpos >=navoffeset){
-					$(".header-main").addClass("fixed");
-				}else{
-					$(".header-main").removeClass("fixed");
-				}
-			 });
-			 
-		});
-		</script>
-		<!-- /script-for sticky-nav -->
-<!--inner block start here-->
-<div class="inner-block">
-
-</div>
-<!--inner block end here-->
-<!--copy rights start here-->
-<div class="copyrights">
-	 <p th:utext="${copyRight}">&copy; 2017 Docs App. All Rights Reserved </p>
-</div>	
-<!--COPY rights end here-->
-</div>
-</div>
-  <!--//content-inner-->
-			<!--/sidebar-menu-->
-				<div class="sidebar-menu">
-					<header class="logo1">
-						<a href="#" class="sidebar-icon"> <span class="fa fa-bars"></span> </a> 
-					</header>
-						<div style="border-top:1px ridge rgba(255, 255, 255, 0.15)"></div>
-                           <div class="menu">
-									<ul id="menu" >
-										<li><a th:href="@{/}"><i class="fa fa-home"></i> <span>Docs Home</span><div class="clearfix"></div></a></li>
-										
-										<li><a th:href="@{/admin/newDoc}"><i class="fa fa-file-text"></i><span>Create New Doc</span><div class="clearfix"></div></a></li>
-										
-										<li sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/admin/manage-users}"><i class="fa fa-users"></i> <span>Manage Users</span><div class="clearfix"></div></a></li>
-										
-										<li sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/registration}"><i class="fa fa-user-plus"></i> <span>Register User</span><div class="clearfix"></div></a></li>
-										
-										<li sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/admin/manage-docs}"><i class="fa fa-book"></i> <span>Manage Docs</span><div class="clearfix"></div></a></li>
-										
-										<li sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/admin/app-settings}"><i class="fa fa-gear"></i> <span>App Settings</span><div class="clearfix"></div></a></li>
-										
-										<li><a th:href="@{/admin/change-password}"><i class="fa fa-key"></i> <span>Change Password</span><div class="clearfix"></div></a></li>
-										
-								  	</ul>
-							</div>
-				</div>
-				<div class="clearfix"></div>		
-</div>
-<script>
-var toggle = true;
+		<div class="mother-grid-inner">
 			
-$(".sidebar-icon").click(function() {                
-  if (toggle)
-  {
-	$(".page-container").addClass("sidebar-collapsed").removeClass("sidebar-collapsed-back");
-	$("#menu span").css({"position":"absolute"});
-  }
-  else
-  {
-	$(".page-container").removeClass("sidebar-collapsed").addClass("sidebar-collapsed-back");
-	setTimeout(function() {
-	  $("#menu span").css({"position":"relative"});
-	}, 400);
-  }
-				
-				toggle = !toggle;
-			});
-</script>
+			<div th:replace="fragments :: header-main"></div>
+			
+			<ol class="breadcrumb">
+            	<li class="breadcrumb-item"><a th:href="@{/admin/home}">Home</a> <i class="fa fa-angle-right"></i> App Settings</li>
+        	</ol>
+        
+	        <div class="grid-form1">
+	            <h3>App Settings</h3>
+	            <div class="tab-content tab-pane active" id="horizontal-form">
+	                
+	                <form class="form-horizontal" th:action="@{/admin/app-settings}" method="post">
+	                	<div class="form-group">
+							<label class="col-sm-4 control-label">Doc-App Name :</label> 
+							<div class="col-sm-6">
+								<input type="text" class="form-control1" id="doc-app-name" name="doc-app-name" th:value="${appName}"/>
+							</div>
+							
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">CopyRight :</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control1" id="copy-right" name="copy-right" th:value="${copyRight}"/>
+							</div> 
+							 
+							
+						</div>
+						<div class="row col-sm-offset-4">
+							<button type="button" onclick="validateAndSave()" class="btn btn-primary col-sm-2">Save</button>
+							<a th:href="@{/admin/home}"><button type="button" class="btn btn-default col-sm-2">Cancel</button></a>
+						</div>
+	                </form>              
+	                
+	            </div>
+         	</div>
+         	
+         	<script type="text/javascript">
+				function validateAndSave(){
+					var  docName = document.getElementById("doc-app-name").value;
+					var  copyRight = document.getElementById("copy-right").value;
+					var regExp = /[a-zA-Z]/;
+					
+					if(docName == null || docName == ''){
+						bootbox.alert("Application Name cannot be empty!!!");
+						return false;
+					} else if(!regExp.test(docName)){
+						bootbox.alert("Please enter a valid App Name!!! Try removing empty spaces!!!");
+						return false;
+					}
+					
+					if(copyRight == null || copyRight == ''){
+						bootbox.alert("Copy Right shouldn't be empty! Atleast enter a line!");
+						return false;
+					} else if(!regExp.test(copyRight)){
+						bootbox.alert("Please remove unnecessary white spaces and try again!!!");
+						return false;
+					}
+					
+					document.forms[0].action='/docs-app/admin/app-settings';
+					document.forms[0].submit();
+				}
+			</script>
 
-<!--js -->
-<script th:src="@{/js/jquery.nicescroll.js}"></script>
-<script th:src="@{/js/scripts.js}"></script>
-<!-- Bootstrap Core JavaScript -->
-   <script th:src="@{/js/bootstrap.min.js}"></script>
-   <!-- /Bootstrap Core JavaScript -->	   
+			<div th:replace="fragments :: footer"></div>	
+
+		</div>
+	</div>
+	<div th:replace="fragments :: side-menu"></div>
+	<div class="clearfix"></div>		
+</div>
 
 </body>
 </html>
