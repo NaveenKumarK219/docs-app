@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.mdoc.model.AppProperties;
 import com.mdoc.model.TableOfContents;
 import com.mdoc.service.DocumentService;
 import com.mdoc.utility.Utilities;
@@ -39,7 +40,7 @@ import com.mdoc.utility.Utilities;
  *
  */
 @Controller
-@SessionAttributes("modelAndView")
+@SessionAttributes("appProperties")
 public class DocumentationController {
 
 	private static final Log log = LogFactory.getLog(DocumentationController.class);
@@ -47,20 +48,27 @@ public class DocumentationController {
 
 	@Autowired
 	private DocumentService documentService;
-
-	Properties properties = new Utilities().loadProperties();
-
+	Properties properties; //= new Utilities().loadProperties();
 	Authentication auth;
 
-	@ModelAttribute("modelAndView")
+	@ModelAttribute("appProperties")
+	public AppProperties loadProperties(AppProperties appProp) {
+		properties = new Utilities().loadProperties();
+		appProp.setAppName(properties.getProperty("appName", "Documentation App"));
+		appProp.setCopyRight(properties.getProperty("copyRight", "&copy; 2017 Docs App . All Rights Reserved"));
+		log.info("~~~~~~~~~~Properties Loaded~~~~~~~~~~~");
+		return appProp;
+	}
+	
+	/*@ModelAttribute("modelAndView")
 	public ModelAndView loadProperties(ModelAndView mav) {
 
-		//properties = new Utilities().loadProperties();
+		properties = new Utilities().loadProperties();
 		mav.addObject("appName", properties.getProperty("appName"));
 		mav.addObject("copyRight", properties.getProperty("copyRight"));
 		log.info("~~~~~~~Properties Loaded!~~~~~~~~~");
 		return mav;
-	}
+	}*/
 
 	/**
 	 * This method is called after the application is started. It will give the
@@ -71,7 +79,7 @@ public class DocumentationController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = { "/docs", "/" }, method = RequestMethod.GET)
-	public ModelAndView home(@ModelAttribute("modelAndView") ModelAndView mav, HttpSession session) throws IOException {
+	public ModelAndView home(ModelAndView mav, HttpSession session) throws IOException {
 		log.info("~~~~~~~~~~~Docs Home~~~~~~~~~~~");
 		File directory = new File(filePath);
 		if (!directory.exists()) {
@@ -114,7 +122,7 @@ public class DocumentationController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/docs/{title}", method = RequestMethod.GET)
-	public ModelAndView viewDocument(@ModelAttribute("modelAndView") ModelAndView mav, @PathVariable String title, HttpSession session)
+	public ModelAndView viewDocument(ModelAndView mav, @PathVariable String title, HttpSession session)
 			throws IOException {
 		log.info("~~~~~~~~~~View Doc : "+title+"~~~~~~~~~~~");
 		auth = SecurityContextHolder.getContext().getAuthentication();
@@ -148,7 +156,7 @@ public class DocumentationController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/admin/newDoc")
-	public ModelAndView newDocument(@ModelAttribute("modelAndView") ModelAndView mav) throws IOException {
+	public ModelAndView newDocument(ModelAndView mav) throws IOException {
 		log.info("~~~~~~~~~~~New Doc Form~~~~~~~~~~~~~");
 		auth = SecurityContextHolder.getContext().getAuthentication();
 		/*mav.addObject("appName", properties.getProperty("appName"));
@@ -204,7 +212,7 @@ public class DocumentationController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/admin/editDoc/{title}", method = RequestMethod.GET)
-	public ModelAndView editDocument(@ModelAttribute("modelAndView") ModelAndView mav, HttpSession session, @PathVariable("title") String title)
+	public ModelAndView editDocument(ModelAndView mav, HttpSession session, @PathVariable("title") String title)
 			throws IOException {
 		log.info("~~~~~~~~~~~Edit Doc :"+title+"~~~~~~~~~~~");
 		auth = SecurityContextHolder.getContext().getAuthentication();

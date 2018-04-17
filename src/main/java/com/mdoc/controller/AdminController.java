@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -32,19 +31,26 @@ import com.mdoc.utility.Utilities;
 public class AdminController {
 
 	private static final Log log = LogFactory.getLog(AdminController.class);
+	
 	@Autowired
 	UserService userService;
-
 	@Autowired
 	DocumentService documentService;
 	@Autowired
 	DocumentRepository documentRepository;
+	Properties properties; //= new Utilities().loadProperties();
 
-	Properties properties = new Utilities().loadProperties();
-
+	/*@ModelAttribute("user")
+    public User getUserInfo(User user){
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	user = userService.findUserByEmail(auth.getName());
+    	log.info("~~~~~~~~~~User Info Loaded~~~~~~~~~");
+    	return user;
+    }*/
+	
 	// Change Password Functionality
 	@RequestMapping(value = "/admin/change-password", method = RequestMethod.GET)
-	public ModelAndView changePasswordForm(@SessionAttribute("modelAndView") ModelAndView mav) {
+	public ModelAndView changePasswordForm(ModelAndView mav) {
 
 		/*mav.addObject("appName", properties.getProperty("appName"));
 		mav.addObject("copyRight", properties.getProperty("copyRight"));*/
@@ -76,7 +82,7 @@ public class AdminController {
 
 	// User Managing Functionality
 	@RequestMapping(value="/admin/manage-users",method=RequestMethod.GET)
-	public ModelAndView showManageUsers(@SessionAttribute("modelAndView") ModelAndView mav) {
+	public ModelAndView showManageUsers(ModelAndView mav) {
 		log.info("~~~~~~~~Manage Users Form~~~~~~~~~~");
 		List<User> userList = userService.getUsers();
 		mav.addObject("users", userList);
@@ -87,7 +93,7 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/admin/manage-users/{action}/{id}", method = RequestMethod.GET)
-	public ModelAndView manageUsers(@SessionAttribute("modelAndView") ModelAndView mav, @PathVariable("action") String action,
+	public ModelAndView manageUsers(ModelAndView mav, @PathVariable("action") String action,
 			@PathVariable("id") int id) {
 		log.info("~~~~~~~~~~Manage Users Action~~~~~~~~~");
 		User user = null;
@@ -144,7 +150,7 @@ public class AdminController {
 
 	// Application Settings Functionality
 	@RequestMapping(value = "/admin/app-settings", method = RequestMethod.GET)
-	public ModelAndView appSettings(@SessionAttribute("modelAndView") ModelAndView mav) {
+	public ModelAndView appSettings(ModelAndView mav) {
 		log.info("~~~~~~~~App Settings Form~~~~~~~~~~");
 		/*mav.addObject("appName", properties.getProperty("appName"));
 		mav.addObject("copyRight", properties.getProperty("copyRight"));*/
@@ -170,7 +176,7 @@ public class AdminController {
 
 	// Docs Management Functionality
 	@RequestMapping(value = "/admin/manage-docs", method = RequestMethod.GET)
-	public ModelAndView getAllDocs(@SessionAttribute("modelAndView") ModelAndView mav) {
+	public ModelAndView getAllDocs(ModelAndView mav) {
 		log.info("~~~~~~~~~~Manage Docs Form~~~~~~~~~~~");
 		List<TableOfContents> tocList = documentRepository.findAllByOrderById();
 		mav.addObject("tocList", tocList);
