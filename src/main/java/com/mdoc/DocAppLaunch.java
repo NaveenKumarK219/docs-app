@@ -16,7 +16,7 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
  * makes it available to run in other tomcat servers.
  * 
  * @author navinkumark
- * @version 2.0
+ * @version 3.0
  * @since Sep-2017
  */
 @SpringBootApplication
@@ -29,6 +29,6 @@ public class DocAppLaunch extends SpringBootServletInitializer {
     }
 
     public static void main(String[] args) {
-	SpringApplication.run(DocAppLaunch.class, args);
+    	SpringApplication.run(DocAppLaunch.class, args);
     }
 }

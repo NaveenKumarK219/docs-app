@@ -13,11 +13,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttribute;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -57,12 +54,10 @@ public class LoginController {
     	request.getSession().setAttribute("user", user);
     	mav.addObject("user", user);
     	if (!(auth instanceof AnonymousAuthenticationToken)) {
-    		/*mav.addObject("appName", properties.getProperty("appName"));
-	    	mav.addObject("copyRight", properties.getProperty("copyRight"));*/
     		mav.setViewName("/admin/home");
     		return mav;
     	}
-    	//mav.addObject("appName", properties.getProperty("appName"));
+
     	mav.setViewName("login");
     	return mav;
     }
@@ -77,8 +72,6 @@ public class LoginController {
     	log.info("~~~~~~~~~~Registration Form~~~~~~~~~~~~");
     	User user = new User();
     	mav.addObject("user", user);
-    	/*mav.addObject("appName", properties.getProperty("appName"));
-		mav.addObject("copyRight", properties.getProperty("copyRight"));*/
     	mav.setViewName("registration");
     	return mav;
     }
@@ -101,14 +94,10 @@ public class LoginController {
     	}
 
     	if (bindResult.hasErrors()) {
-    		/*mav.addObject("appName", properties.getProperty("appName"));
-	    	mav.addObject("copyRight", properties.getProperty("copyRight"));*/
     		mav.setViewName("registration");
     	} else {
     		userService.saveUser(user);
     		mav.addObject("successMessage", "User registered successfully!!");
-    		/*mav.addObject("user", new User());
-	    	mav.setViewName("registration");*/
     		mav.setView(new RedirectView("/docs-app/admin/home"));
     	}
     	return mav;
@@ -124,11 +113,8 @@ public class LoginController {
     public ModelAndView home(ModelAndView mav) {
     	log.info("~~~~~~~~~~~Admin Home~~~~~~~~~~~");
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    	//properties = new Utilities().loadProperties();
     	User user = userService.findUserByEmail(auth.getName());
     	mav.addObject("user", user);
-    	/*mav.addObject("appName", properties.getProperty("appName"));
-		mav.addObject("copyRight", properties.getProperty("copyRight"));*/
     	mav.setViewName("/admin/home");
     	return mav;
 

@@ -14,9 +14,7 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
-    /*
-     * @Autowired private RoleRepository roleRepository;
-     */
+    
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -32,10 +30,7 @@ public class UserService {
     public void saveUser(User user) {
 	user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 	user.setActive(true);
-	/*
-	 * Role userRole = roleRepository.findByRole("ADMIN"); user.setRoles(new
-	 * HashSet<Role>(Arrays.asList(userRole)));
-	 */
+	
 	userRepository.save(user);
 
     }
@@ -54,8 +49,7 @@ public class UserService {
     }
 
     public User getUserById(int id) {
-	User user = userRepository.findById(id);
-	return user;
+    	return userRepository.findById(id);
     }
 
 }

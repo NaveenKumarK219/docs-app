@@ -28,13 +28,13 @@ public class TableOfContents {
     private String author;
 
     @Column(name = "edited_by")
-    private String edited_by;
+    private String editedBy;
 
     @Column(name = "created_dtm")
-    private Date created_dtm;
+    private Date createdDtm;
 
     @Column(name = "edited_dtm")
-    private Date edited_dtm;
+    private Date editedDtm;
 
     @Column(name="active")
     private Boolean active;
@@ -71,28 +71,28 @@ public class TableOfContents {
 	this.author = author;
     }
 
-    public String getEdited_by() {
-	return edited_by;
+    public String getEditedBy() {
+	return editedBy;
     }
 
-    public void setEdited_by(String edited_by) {
-	this.edited_by = edited_by;
+    public void setEditedBy(String editedBy) {
+	this.editedBy = editedBy;
     }
 
-    public Date getCreated_dtm() {
-	return created_dtm;
+    public Date getCreatedDtm() {
+	return createdDtm;
     }
 
-    public void setCreated_dtm(Date created_dtm) {
-	this.created_dtm = created_dtm;
+    public void setCreatedDtm(Date createdDtm) {
+	this.createdDtm = createdDtm;
     }
 
-    public Date getEdited_dtm() {
-	return edited_dtm;
+    public Date getEditedDtm() {
+	return editedDtm;
     }
 
-    public void setEdited_dtm(Date edited_dtm) {
-	this.edited_dtm = edited_dtm;
+    public void setEditedDtm(Date editedDtm) {
+	this.editedDtm = editedDtm;
     }
 
     public Boolean getActive() {

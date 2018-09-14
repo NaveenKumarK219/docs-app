@@ -44,11 +44,15 @@ import com.mdoc.utility.Utilities;
 public class DocumentationController {
 
 	private static final Log log = LogFactory.getLog(DocumentationController.class);
-	private final String filePath = System.getenv("HOME") + "/docs";
+	private static final String FILEPATH = System.getenv("HOME") + "/docs";
+	private static final String VIEW_DOCUMENT = "viewDoc";
+	private static final String MARKDOWN_HTML = "markdownHtml";
+	private static final String TITLE = "title";
+	private static final String HOME_FILE = "/home.md";
 
 	@Autowired
 	private DocumentService documentService;
-	Properties properties; //= new Utilities().loadProperties();
+	Properties properties;
 	Authentication auth;
 
 	@ModelAttribute("appProperties")
@@ -60,16 +64,6 @@ public class DocumentationController {
 		return appProp;
 	}
 	
-	/*@ModelAttribute("modelAndView")
-	public ModelAndView loadProperties(ModelAndView mav) {
-
-		properties = new Utilities().loadProperties();
-		mav.addObject("appName", properties.getProperty("appName"));
-		mav.addObject("copyRight", properties.getProperty("copyRight"));
-		log.info("~~~~~~~Properties Loaded!~~~~~~~~~");
-		return mav;
-	}*/
-
 	/**
 	 * This method is called after the application is started. It will give the
 	 * welcome page for the application.
@@ -81,32 +75,29 @@ public class DocumentationController {
 	@RequestMapping(value = { "/docs", "/" }, method = RequestMethod.GET)
 	public ModelAndView home(ModelAndView mav, HttpSession session) throws IOException {
 		log.info("~~~~~~~~~~~Docs Home~~~~~~~~~~~");
-		File directory = new File(filePath);
+		File directory = new File(FILEPATH);
 		if (!directory.exists()) {
 			directory.mkdir();
 		}
 		File file = null;
-		//properties = new Utilities().loadProperties();
 		List<TableOfContents> tocList = documentService.getTableOfContents();
 		String htmlContent = null;
-		if (tocList.size() == 0) {
-			mav.setViewName("viewDoc");
-			htmlContent = documentService.markdownToHtmlConverter("welcomePage", session.getServletContext().getRealPath("WEB-INF/classes/markdown"), session);
-			mav.addObject("markdownHtml", htmlContent);
-			mav.addObject("title", "Get Started");
+		if (tocList.isEmpty()) {
+			mav.setViewName(VIEW_DOCUMENT);
+			htmlContent = documentService.markdownToHtmlConverter("welcomePage", session.getServletContext().getRealPath("WEB-INF/classes/markdown"));
+			mav.addObject(MARKDOWN_HTML, htmlContent);
+			mav.addObject(TITLE, "Get Started");
 			return mav;
 		}
-		file = new File(filePath+"/home.md");
+		file = new File(FILEPATH + HOME_FILE);
 		if(file.exists())
-			htmlContent = documentService.markdownToHtmlConverter("home", filePath, session);
+			htmlContent = documentService.markdownToHtmlConverter("home", FILEPATH);
 		else
-			htmlContent = documentService.markdownToHtmlConverter("home", session.getServletContext().getRealPath("WEB-INF/classes/markdown"), session);
-		mav.addObject("markdownHtml", htmlContent);
+			htmlContent = documentService.markdownToHtmlConverter("home", session.getServletContext().getRealPath("WEB-INF/classes/markdown"));
+		mav.addObject(MARKDOWN_HTML, htmlContent);
 		mav.addObject("tocList", tocList);
-		mav.addObject("title", "Home");
-		/*mav.addObject("appName", properties.getProperty("appName"));
-		mav.addObject("copyRight", properties.getProperty("copyRight"));*/
-		mav.setViewName("viewDoc");
+		mav.addObject(TITLE, "Home");
+		mav.setViewName(VIEW_DOCUMENT);
 		return mav;
 
 	}
@@ -124,7 +115,7 @@ public class DocumentationController {
 	@RequestMapping(value = "/docs/{title}", method = RequestMethod.GET)
 	public ModelAndView viewDocument(ModelAndView mav, @PathVariable String title, HttpSession session)
 			throws IOException {
-		log.info("~~~~~~~~~~View Doc : "+title+"~~~~~~~~~~~");
+		log.info("~~~~~~~~~~View Doc : "+title+"~~~~~~~~~~~~");
 		auth = SecurityContextHolder.getContext().getAuthentication();
 		String userName = null;
 		if (auth != null) {
@@ -136,16 +127,14 @@ public class DocumentationController {
 		if (fileName == null)
 			fileName = "home";
 
-		String htmlContent = documentService.markdownToHtmlConverter(fileName, filePath, session);
+		String htmlContent = documentService.markdownToHtmlConverter(fileName, FILEPATH);
 
-		mav.addObject("markdownHtml", htmlContent);
+		mav.addObject(MARKDOWN_HTML, htmlContent);
 		mav.addObject("tocList", tocList);
 		mav.addObject("toc", toc);
-		mav.addObject("title", title);
+		mav.addObject(TITLE, title);
 		mav.addObject("userName", userName);
-		/*mav.addObject("appName", properties.getProperty("appName"));
-		mav.addObject("copyRight", properties.getProperty("copyRight"));*/
-		mav.setViewName("viewDoc");
+		mav.setViewName(VIEW_DOCUMENT);
 		return mav;
 	}
 
@@ -156,11 +145,9 @@ public class DocumentationController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/admin/newDoc")
-	public ModelAndView newDocument(ModelAndView mav) throws IOException {
+	public ModelAndView newDocument(ModelAndView mav) {
 		log.info("~~~~~~~~~~~New Doc Form~~~~~~~~~~~~~");
 		auth = SecurityContextHolder.getContext().getAuthentication();
-		/*mav.addObject("appName", properties.getProperty("appName"));
-		mav.addObject("copyRight", properties.getProperty("copyRight"));*/
 		mav.setViewName("/admin/createNewDoc");
 
 		return mav;
@@ -182,21 +169,21 @@ public class DocumentationController {
 		ModelAndView mav = new ModelAndView();
 		TableOfContents toc = new TableOfContents();
 		String fileName = title.trim().replaceAll("\\s{1,}", "-");
-		System.out.println("Title: " + title + " File Name: " + fileName);
+		log.info("Title: " + title + " File Name: " + fileName);
 
-		try (BufferedWriter bWriter = new BufferedWriter(new FileWriter(filePath + "/" + fileName + ".md"))) {
+		try (BufferedWriter bWriter = new BufferedWriter(new FileWriter(FILEPATH + "/" + fileName + ".md"))) {
 			bWriter.write(markdownText);
 			toc.setTitle(title);
 			toc.setFileName(fileName);
 			toc.setAuthor(auth.getName());
-			toc.setCreated_dtm(Calendar.getInstance().getTime());
+			toc.setCreatedDtm(Calendar.getInstance().getTime());
 			toc.setActive(true);
 			documentService.setTableOfContents(toc);
 		} catch (IOException e) {
 
-			e.printStackTrace();
+			log.error(e.getMessage(), e);
 		}
-		mav.addObject("title", title);
+		mav.addObject(TITLE, title);
 		mav.addObject("successMessage", " Doc Added successfully!!!");
 		mav.setView(new RedirectView("../admin/home"));
 		return mav;
@@ -220,11 +207,11 @@ public class DocumentationController {
 		if (fileName == null)
 			fileName = "home";
 		DataInputStream dis = null;
-		File file = new File(filePath+"/home.md");
+		File file = new File(FILEPATH + HOME_FILE);
 		if (fileName.equals("home") && !file.exists())
 			dis = new DataInputStream(new FileInputStream(session.getServletContext().getRealPath("WEB-INF/classes/markdown/home.md")));
 		else
-			dis = new DataInputStream(new FileInputStream(filePath + "/" + fileName + ".md"));
+			dis = new DataInputStream(new FileInputStream(FILEPATH + "/" + fileName + ".md"));
 
 		byte[] markdownByte = null;
 		try {
@@ -232,14 +219,14 @@ public class DocumentationController {
 			dis.readFully(markdownByte);
 			dis.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.info(e.getMessage(), e);
+		} finally {
+			dis.close();
 		}
 
 		String markdownText = new String(markdownByte);
-		mav.addObject("title", title);
+		mav.addObject(TITLE, title);
 		mav.addObject("markdownText", markdownText);
-		/*mav.addObject("appName", properties.getProperty("appName"));
-		mav.addObject("copyRight", properties.getProperty("copyRight"));*/
 		mav.setViewName("/admin/editDoc");
 		return mav;
 	}
@@ -257,26 +244,28 @@ public class DocumentationController {
 	public ModelAndView saveDocument(ModelAndView mav, HttpSession session, @RequestParam("title") String title,
 			@RequestParam("markdownText") String markdownText) throws IOException {
 		log.info("~~~~~~~~~~~Save Doc : "+title+"~~~~~~~~~~~");
-		File file = new File(filePath + "/home.md");
-		file.createNewFile();
+		File file = new File(FILEPATH + HOME_FILE);
+		if(file.createNewFile()) {
+			log.info("~~~~~New File created : "+ file.getName()+"~~~~~~");
+		}
 		String fileName = documentService.getDocFileName(title);
 		if (fileName == null)
 			fileName = "home";
-		System.out.println("Title: " + title + " File Name: " + fileName);
+		log.info("Title: " + title + " File Name: " + fileName);
 		TableOfContents toc = documentService.getTableOfContentsOnTitle(title);
 
-		try (BufferedWriter bWriter = new BufferedWriter(new FileWriter(filePath + "/" + fileName + ".md"))) {
+		try (BufferedWriter bWriter = new BufferedWriter(new FileWriter(FILEPATH + "/" + fileName + ".md"))) {
 			bWriter.write(markdownText);
 		} catch (IOException e) {
 
-			e.printStackTrace();
+			log.info(e.getMessage(), e);
 		}
 		if (toc != null) {
-			toc.setEdited_by(auth.getName());
-			toc.setEdited_dtm(Calendar.getInstance().getTime());
+			toc.setEditedBy(auth.getName());
+			toc.setEditedDtm(Calendar.getInstance().getTime());
 			documentService.setTableOfContents(toc);
 		}
-		mav.addObject("title", title);
+		mav.addObject(TITLE, title);
 		mav.addObject("successMessage", " Doc Edited successfully!!!");
 		mav.setView(new RedirectView("../admin/home"));
 		return mav;

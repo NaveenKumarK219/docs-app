@@ -1,7 +1,9 @@
 package com.mdoc.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.validation.Valid;
@@ -31,6 +33,14 @@ import com.mdoc.utility.Utilities;
 public class AdminController {
 
 	private static final Log log = LogFactory.getLog(AdminController.class);
+	private static final String MANAGE_USERS_LINK = "/docs-app/admin/manage-users";
+	private static final String SUCCESS_MESSAGE = "successMessage";
+	private static final String ACTION_EDIT = "edit";
+	private static final String ACTION_DELETE = "delete";
+	private static final String ACTION_BLOCK = "block";
+	private static final String ACTION_UNBLOCK = "unblock";
+	private static final String ACTION_HIDE = "hide";
+	private static final String ACTION_SHOW = "show";
 	
 	@Autowired
 	UserService userService;
@@ -38,44 +48,34 @@ public class AdminController {
 	DocumentService documentService;
 	@Autowired
 	DocumentRepository documentRepository;
-	Properties properties; //= new Utilities().loadProperties();
-
-	/*@ModelAttribute("user")
-    public User getUserInfo(User user){
-    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    	user = userService.findUserByEmail(auth.getName());
-    	log.info("~~~~~~~~~~User Info Loaded~~~~~~~~~");
-    	return user;
-    }*/
+	Properties properties;
 	
 	// Change Password Functionality
 	@RequestMapping(value = "/admin/change-password", method = RequestMethod.GET)
 	public ModelAndView changePasswordForm(ModelAndView mav) {
 
-		/*mav.addObject("appName", properties.getProperty("appName"));
-		mav.addObject("copyRight", properties.getProperty("copyRight"));*/
 		log.info("~~~~~~~~Change Password Form~~~~~~~~");
 		mav.setViewName("/admin/changePassword");
 		return mav;
 	}
 
 	@RequestMapping(value = "/admin/change-password", method = RequestMethod.POST)
-	public ModelAndView changePasswordSubmit(@RequestParam("currentPassword") String current_password,
-			@RequestParam("newPassword") String new_password) {
+	public ModelAndView changePasswordSubmit(@RequestParam("currentPassword") String currentPassword,
+			@RequestParam("newPassword") String newPassword) {
 		log.info("~~~~~~~~~Change Password Submit~~~~~~~~~");
 		ModelAndView mav = new ModelAndView();
 		BCryptPasswordEncoder bCryptPassEncoder = new BCryptPasswordEncoder();
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		User user = userService.findUserByEmail(username);
 		String encodedPassword = user.getPassword();
-		if (!bCryptPassEncoder.matches(current_password, encodedPassword)) {
-			mav.addObject("successMessage", "Current Password entered is wrong!!!");
+		if (!bCryptPassEncoder.matches(currentPassword, encodedPassword)) {
+			mav.addObject(SUCCESS_MESSAGE, "Current Password entered is wrong!!!");
 			mav.setView(new RedirectView("../admin/change-password"));
 			return mav;
 		}
-		user.setPassword(new_password);
+		user.setPassword(newPassword);
 		userService.saveUser(user);
-		mav.addObject("successMessage", "Password changed Successfully!!!");
+		mav.addObject(SUCCESS_MESSAGE, "Password changed Successfully!!!");
 		mav.setView(new RedirectView("../admin/home"));
 		return mav;
 	}
@@ -86,8 +86,6 @@ public class AdminController {
 		log.info("~~~~~~~~Manage Users Form~~~~~~~~~~");
 		List<User> userList = userService.getUsers();
 		mav.addObject("users", userList);
-		/*mav.addObject("appName", properties.getProperty("appName"));
-		mav.addObject("copyRight", properties.getProperty("copyRight"));*/
 		mav.setViewName("/admin/manageUsers");
 		return mav;
 	}
@@ -97,25 +95,23 @@ public class AdminController {
 			@PathVariable("id") int id) {
 		log.info("~~~~~~~~~~Manage Users Action~~~~~~~~~");
 		User user = null;
-		if (action.equals("edit")) {
+		if (ACTION_EDIT.equalsIgnoreCase(action)) {
 			user = userService.getUserById(id);
 			mav.addObject("user", user);
-			/*mav.addObject("appName", properties.getProperty("appName"));
-	    	mav.addObject("copyRight", properties.getProperty("copyRight"));*/
 			mav.setViewName("/admin/editUser");
 
-		} else if (action.equals("delete")) {
+		} else if (ACTION_DELETE.equalsIgnoreCase(action)) {
 			userService.deleteUser(id);
-			mav.addObject("successMessage", "User removed successfully!!");
-			mav.setView(new RedirectView("/docs-app/admin/manage-users"));
-		} else if (action.equals("block")) {
+			mav.addObject(SUCCESS_MESSAGE, "User removed successfully!!");
+			mav.setView(new RedirectView(MANAGE_USERS_LINK));
+		} else if (ACTION_BLOCK.equalsIgnoreCase(action)) {
 			userService.blockUser(id);
-			mav.addObject("successMessage", "User blocked successfully!!");
-			mav.setView(new RedirectView("/docs-app/admin/manage-users"));
-		} else if (action.equals("unblock")) {
+			mav.addObject(SUCCESS_MESSAGE, "User blocked successfully!!");
+			mav.setView(new RedirectView(MANAGE_USERS_LINK));
+		} else if (ACTION_UNBLOCK.equalsIgnoreCase(action)) {
 			userService.unBlockUser(id);
-			mav.addObject("successMessage", "User is active now!!");
-			mav.setView(new RedirectView("/docs-app/admin/manage-users"));
+			mav.addObject(SUCCESS_MESSAGE, "User is active now!!");
+			mav.setView(new RedirectView(MANAGE_USERS_LINK));
 		}
 		return mav;
 	}
@@ -141,8 +137,8 @@ public class AdminController {
 			updateUser.setPassword(user.getPassword());
 			updateUser.setRole(user.getRole());
 			userService.saveUser(updateUser);
-			mav.addObject("successMessage", "User Details updated successfully!!");
-			mav.setView(new RedirectView("/docs-app/admin/manage-users"));
+			mav.addObject(SUCCESS_MESSAGE, "User Details updated successfully!!");
+			mav.setView(new RedirectView(MANAGE_USERS_LINK));
 		}
 
 		return mav;
@@ -152,24 +148,22 @@ public class AdminController {
 	@RequestMapping(value = "/admin/app-settings", method = RequestMethod.GET)
 	public ModelAndView appSettings(ModelAndView mav) {
 		log.info("~~~~~~~~App Settings Form~~~~~~~~~~");
-		/*mav.addObject("appName", properties.getProperty("appName"));
-		mav.addObject("copyRight", properties.getProperty("copyRight"));*/
 		mav.setViewName("/admin/appSettings");
 		return mav;
 	}
 
 	@RequestMapping(value = "/admin/app-settings", method = RequestMethod.POST)
 	public ModelAndView saveSettings(@RequestParam("doc-app-name") String docAppName,
-			@RequestParam("copy-right") String copyright) {
+			@RequestParam("copy-right") String copyright) throws IOException {
 		log.info("~~~~~~~~~~App Settings Save~~~~~~~~~~~");
 		ModelAndView mav = new ModelAndView();
 		Utilities util = new Utilities();
-		HashMap<String, String> propHash = new HashMap<>();
+		Map<String, String> propHash = new HashMap<>();
 		propHash.put("appName", docAppName);
 		propHash.put("copyRight", copyright);
 		util.saveProperties(propHash);
 		properties = new Utilities().loadProperties();
-		mav.addObject("successMessage", "App settings applied successfully!!");
+		mav.addObject(SUCCESS_MESSAGE, "App settings applied successfully!!");
 		mav.setView(new RedirectView("../admin/home"));
 		return mav;
 	}
@@ -180,8 +174,6 @@ public class AdminController {
 		log.info("~~~~~~~~~~Manage Docs Form~~~~~~~~~~~");
 		List<TableOfContents> tocList = documentRepository.findAllByOrderById();
 		mav.addObject("tocList", tocList);
-		/*mav.addObject("appName", properties.getProperty("appName"));
-		mav.addObject("copyRight", properties.getProperty("copyRight"));*/
 		mav.setViewName("/admin/docsListView");
 
 		return mav;
@@ -192,14 +184,14 @@ public class AdminController {
 			@PathVariable("title") String title) {
 		log.info("~~~~~~~~~~Manage Docs Action~~~~~~~~~~~");
 		TableOfContents toc = documentService.getTableOfContentsOnTitle(title);
-		if (action.equals("hide")) {
+		if (ACTION_HIDE.equalsIgnoreCase(action)) {
 			toc.setActive(false);
 			documentService.saveTableOfContents(toc);
-			mav.addObject("successMessage", title + " doc is now hidden in app menu!");
-		} else if (action.equals("show")) {
+			mav.addObject(SUCCESS_MESSAGE, title + " doc is now hidden in app menu!");
+		} else if (ACTION_SHOW.equalsIgnoreCase(action)) {
 			toc.setActive(true);
 			documentService.saveTableOfContents(toc);
-			mav.addObject("successMessage", title + " is visible in the app menu now!");
+			mav.addObject(SUCCESS_MESSAGE, title + " is visible in the app menu now!");
 		}
 		mav.setView(new RedirectView("/docs-app/admin/manage-docs"));
 		return mav;

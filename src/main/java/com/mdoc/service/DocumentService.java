@@ -2,12 +2,11 @@ package com.mdoc.service;
 
 import java.io.DataInputStream;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.pegdown.Extensions;
 import org.pegdown.PegDownProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +17,8 @@ import com.mdoc.repository.DocumentRepository;
 
 @Service("documentService")
 public class DocumentService {
+	
+	private static final Log log = LogFactory.getLog(DocumentService.class);
 
     @Autowired
     private DocumentRepository documentRepository;
@@ -25,24 +26,20 @@ public class DocumentService {
 
     public List<TableOfContents> getTableOfContents() {
 
-	/*if (title == null || title.equals("")) {
-	    return documentRepository.getTableOfContents("Home");
-	}*/
-	return documentRepository.getTableOfContents();
-	// return documentRepository.findAllByOrderById();
+    	return documentRepository.getTableOfContents();
     }
     
     public String getDocFileName(String title) {
 	
-	return documentRepository.getDocFileName(title);
+    	return documentRepository.getDocFileName(title);
     }
 
     public void setTableOfContents(TableOfContents toc) {
-	documentRepository.save(toc);
+    	documentRepository.save(toc);
     }
 
-    public String markdownToHtmlConverter(String fileName, String filePath, HttpSession session)
-	    throws FileNotFoundException {
+    public String markdownToHtmlConverter(String fileName, String filePath)
+	    throws IOException {
 
 	PegDownProcessor pegdown = new PegDownProcessor(Extensions.ALL, Long.MAX_VALUE);
 	DataInputStream dis = new DataInputStream(new FileInputStream(filePath + "/" + fileName + ".md"));
@@ -51,9 +48,10 @@ public class DocumentService {
 	try {
 	    markdownByte = new byte[dis.available()];
 	    dis.readFully(markdownByte);
-	    dis.close();
 	} catch (IOException e) {
-	    e.printStackTrace();
+		log.error(e.getMessage(), e);
+	}finally {
+		dis.close();
 	}
 
 	String markdownText = new String(markdownByte);
